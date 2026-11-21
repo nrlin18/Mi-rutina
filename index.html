@@ -247,6 +247,8 @@
   .pose-frame.anatomy .anat-legend{position:absolute;left:10px;top:10px;right:auto;bottom:auto;display:flex;gap:10px;font-size:10px;color:#C9C2B1;}
   .pose-frame.anatomy .anat-legend i{display:inline-block;width:14px;height:3px;margin-right:4px;vertical-align:middle;}
   .pose-frame.anatomy svg{position:absolute;inset:0;padding-bottom:30px;box-sizing:border-box;}
+  .pose-frame.photo{background:#fff;}
+  .pose-frame.photo img{position:absolute;inset:0;width:100%;height:100%;padding-bottom:34px;box-sizing:border-box;object-fit:contain;}
 </style>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#1F1E1B">
@@ -588,6 +590,13 @@ function muscleMapSvg(muscleLabel, color){
 function poseFrame(p1,p2,color,exName,muscleLabel){
   const vid = EX_VIDEO_ID[exName];
   const key = primaryMuscleKey(muscleLabel);
+  const photo = EX_IMG[exName];
+  if(photo){
+    const cap = muscleLabel.split('/')[0].trim();
+    const vb = vid ? `<button class="mini-video-btn video-trigger" data-vid="${vid}" data-title="${exName}">▶ Video real</button>` : '';
+    return `<div class="pose-frame anatomy photo"><img src="${photo}" alt="${exName}" loading="lazy">
+      <div class="pose-caption"><i class="dot" style="background:${color}"></i>Trabaja: ${cap}</div>${vb}</div>`;
+  }
   const movementSvg = combinedPoseSvg(p1,p2,color,key);
   const caption = muscleLabel.split('/')[0].trim();
   const videoBtn = vid ? `<button class="mini-video-btn video-trigger" data-vid="${vid}" data-title="${exName}">▶ Video real</button>` : '';
@@ -654,6 +663,11 @@ const EX_VIDEO_ID = {
   'Elevación de piernas':'vwl68EF9M2Q','Plancha lateral':'iNbH7_edNI8',
   'Salto de tijera':'uLVt6u15L98','Círculos de brazos':'tYo5ghpLksg','Sentadilla sin peso':'P-yaD24bUE8',
   'Zancada con giro':'7yrkGWJHSP0','Círculos de cadera':'JYqLwajOGjI'
+};
+const EX_IMG = {
+  'Flexiones estándar':'img/flexiones-estandar.jpg','Flexiones diamante':'img/flexiones-diamante.jpg',
+  'Fondos en silla':'img/fondos-en-silla.jpg','Remo invertido con mesa':'img/remo-invertido-mesa.jpg',
+  'Sentadillas':'img/sentadillas.jpg','Plancha':'img/plancha.jpg'
 };
 function thumbUrl(id){ return `https://img.youtube.com/vi/${id}/hqdefault.jpg`; }
 function videoUrl(id){ return `https://www.youtube.com/watch?v=${id}`; }
