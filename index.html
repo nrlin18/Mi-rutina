@@ -700,6 +700,22 @@ const EX_VID = {
   'Zancadas':'video/zancadas.mp4',
   'Sentadilla con salto':'video/sentadilla-salto.mp4',
   'Plancha':'video/plancha.mp4',
+  'Dominada':'video/dominada.mp4',
+  'Retracción escapular colgado':'video/retraccion-escapular-colgado.mp4',
+  'Dominada en supinación':'video/dominada-en-supinacion.mp4',
+  'Dominada cerrada':'video/dominada-cerrada.mp4',
+  'Dominada abierta':'video/dominada-abierta.mp4',
+  'Dominada cerrada en martillo':'video/dominada-cerrada-en-martillo.mp4',
+  'Remo aislado con mancuerna':'video/remo-aislado-con-mancuerna.mp4',
+  'Dominada mixta':'video/dominada-mixta.mp4',
+  'Dominada circular en supinación':'video/dominada-circular-en-supinacion.mp4',
+  'Dominada lateral':'video/dominada-lateral.mp4',
+  'Dominada trasera':'video/dominada-trasera.mp4',
+  'Dominada cerrada corta':'video/dominada-cerrada-corta.mp4',
+  'Pullover con mancuerna':'video/pullover-con-mancuerna.mp4',
+  'Dominada a una mano asistida':'video/dominada-a-una-mano-asistida.mp4',
+  'Dominada a una mano':'video/dominada-a-una-mano.mp4',
+  'Sentadilla en pared con mancuernas':'video/sentadilla-en-pared-con-mancuernas.mp4',
   'Remo con mancuernas (agarre neutro)':'video/remo-con-mancuernas-agarre-neutro.mp4',
   'Dominada invertida':'video/dominada-invertida.mp4',
   'Media sentadilla con mancuernas en banco':'video/media-sentadilla-con-mancuernas-en-banco.mp4',
@@ -983,6 +999,15 @@ const EXTRA_EQ = {
   14:[Object.assign(ex('Remo renegado con kettlebell','Espalda / Core','3 × 8 c/lado','En plancha alta con las manos en las kettlebells, rema alterno sin girar la cadera.','hingeBottom','rowEnd','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Sit-up con kettlebell','Core','3 × 12','Boca arriba con la kettlebell estirada sobre el pecho, sube el tronco.','lyBikeA','lyBikeB','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Russian twist con kettlebell','Core / Oblicuos','3 × 20','Sentado con los pies elevados, gira el tronco con la kettlebell.','lyBikeA','lyBikeB','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Pasamanos agachado con kettlebell','Core / Oblicuos','3 × 10 c/lado','Agachado, pasa la kettlebell de una mano a la otra bajo el cuerpo.','lyBikeA','lyBikeB','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Puente lateral declinado','Core / Oblicuos','3 × 30 seg c/lado','Con los pies sobre un banco, mantén la plancha lateral con la cadera alta.','lyBikeA','lyBikeB','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Plancha lateral inclinada','Core / Oblicuos','3 × 30 seg c/lado','Con el antebrazo o la mano en el banco, mantén el cuerpo en línea recta de lado.','lyBikeA','lyBikeB','Sube el peso poco a poco manteniendo la técnica.'),{eq:true})]
 };
 GYM_PLAN.forEach((p,i)=>{ if(EXTRA_EQ[i]) p.exercises.push(...EXTRA_EQ[i]); });
+const EXTRA_EQ2 = {
+  1:[Object.assign(ex('Dominada','Espalda / Bíceps','4 × 5-8','Colgado de la barra, tira del cuerpo hasta llevar la barbilla sobre la barra y baja con control sin balancearte.','pullBottom','pullTop','Cuando domines el rango alto, añade pausa de 2 seg arriba.'),{eq:true}), Object.assign(ex('Retracción escapular colgado','Espalda','3 × 12','Colgado de la barra con los brazos estirados, junta los omóplatos para subir un poco el cuerpo y suelta con control.','pullBottom','pullTop','Cuando domines el rango alto, añade pausa de 2 seg arriba.'),{eq:true}), Object.assign(ex('Dominada en supinación','Espalda / Bíceps','3 × 5-8','Agarre con las palmas hacia ti, sube hasta que la barbilla pase la barra y baja con control.','pullBottom','pullTop','Cuando domines el rango alto, añade pausa de 2 seg arriba.'),{eq:true})],
+  6:[Object.assign(ex('Dominada cerrada','Espalda / Bíceps','3 × 5-8','Con las manos juntas en la barra, sube el cuerpo hasta la barbilla y baja con control.','pullBottom','pullTop','Cuando domines el rango alto, añade pausa de 2 seg arriba.'),{eq:true}), Object.assign(ex('Dominada abierta','Espalda','3 × 5-8','Con las manos más abiertas que los hombros, sube hasta la barbilla y baja con control.','pullBottom','pullTop','Cuando domines el rango alto, añade pausa de 2 seg arriba.'),{eq:true}), Object.assign(ex('Dominada cerrada en martillo','Espalda / Bíceps','3 × 5-8','Agarre neutro con las palmas enfrentadas, sube hasta la barbilla y baja con control.','pullBottom','pullTop','Cuando domines el rango alto, añade pausa de 2 seg arriba.'),{eq:true}), Object.assign(ex('Remo aislado con mancuerna','Espalda / Bíceps','3 × 10 c/lado','Una mano y una rodilla en el banco, tira de la mancuerna hacia la cadera con el codo pegado.','hingeBottom','rowEnd','Cuando domines el rango alto, añade pausa de 2 seg arriba.'),{eq:true})],
+  11:[Object.assign(ex('Dominada mixta','Espalda / Bíceps','3 × 4-6 c/lado','Una mano en pronación y la otra en supinación, sube hasta la barbilla y alterna el agarre cada serie.','pullBottom','pullTop','Cuando domines el rango alto, añade pausa de 2 seg arriba.'),{eq:true}), Object.assign(ex('Dominada circular en supinación','Espalda / Bíceps','3 × 4-6','Con las palmas hacia ti, sube describiendo un movimiento circular controlado y baja.','pullBottom','pullTop','Cuando domines el rango alto, añade pausa de 2 seg arriba.'),{eq:true}), Object.assign(ex('Dominada lateral','Espalda / Bíceps','3 × 4-6 c/lado','Sube el cuerpo hacia un lado de la barra, lleva la barbilla hasta la mano y alterna.','pullBottom','pullTop','Cuando domines el rango alto, añade pausa de 2 seg arriba.'),{eq:true}), Object.assign(ex('Dominada trasera','Espalda / Hombro','3 × 4-6','Sube llevando la barra hacia la nuca con control y baja, sin tirar del cuello.','pullBottom','pullTop','Cuando domines el rango alto, añade pausa de 2 seg arriba.'),{eq:true})],
+  13:[Object.assign(ex('Dominada cerrada corta','Espalda','3 × 6-8','Con el agarre cerrado, haz repeticiones cortas de la parte alta del movimiento.','pullBottom','pullTop','Cuando domines el rango alto, añade pausa de 2 seg arriba.'),{eq:true}), Object.assign(ex('Pullover con mancuerna','Espalda / Pecho','3 × 12','Acostado en el banco con una mancuerna en ambas manos, llévala detrás de la cabeza y regresa.','hingeBottom','rowEnd','Cuando domines el rango alto, añade pausa de 2 seg arriba.'),{eq:true})],
+  14:[Object.assign(ex('Dominada a una mano asistida','Espalda / Bíceps','3 × 3-5 c/lado','Con una mano en la barra y la otra ayudando, sube con control y baja lento.','pullBottom','pullTop','Cuando domines el rango alto, añade pausa de 2 seg arriba.'),{eq:true}), Object.assign(ex('Dominada a una mano','Espalda / Bíceps','3 × 2-4 c/lado','Con una sola mano en la barra, sube con control y baja lento. Ejercicio avanzado.','pullBottom','pullTop','Cuando domines el rango alto, añade pausa de 2 seg arriba.'),{eq:true})],
+  12:[Object.assign(ex('Sentadilla en pared con mancuernas','Piernas / Glúteo','3 × 12','Espalda en la pared, con mancuernas en las manos, baja hasta que los muslos queden paralelos y sube.','stand','squatDown','Cuando domines el rango alto, añade pausa de 2 seg arriba.'),{eq:true})]
+};
+GYM_PLAN.forEach((p,i)=>{ if(EXTRA_EQ2[i]) p.exercises.push(...EXTRA_EQ2[i]); });
 const DAYS = GYM_PLAN.map((p,i)=>({ id:i, key:'d'+(i+1), label:`Sem ${Math.floor(i/5)+1} · ${WEEKDAY_NAMES[i%5]}`, short:WEEKDAY_SHORT[i%5], type:'gym', title:p.title, tag:p.tag, _all:p.exercises, get exercises(){ return eqMode ? this._all : this._all.filter(e=>!e.eq); } }));
 
 const RUN_PLANS = {
@@ -1359,6 +1384,22 @@ function renderDay(){
 
 /* ---------- VOICE INSTRUCTIONS — spoken, plain-language execution cues ---------- */
 const VOICE_INSTRUCTIONS = {
+  'Dominada':'Colgado de la barra, tira del cuerpo hasta llevar la barbilla sobre la barra y baja con control sin balancearte.',
+  'Retracción escapular colgado':'Colgado de la barra con los brazos estirados, junta los omóplatos para subir un poco el cuerpo y suelta con control.',
+  'Dominada en supinación':'Agarre con las palmas hacia ti, sube hasta que la barbilla pase la barra y baja con control.',
+  'Dominada cerrada':'Con las manos juntas en la barra, sube el cuerpo hasta la barbilla y baja con control.',
+  'Dominada abierta':'Con las manos más abiertas que los hombros, sube hasta la barbilla y baja con control.',
+  'Dominada cerrada en martillo':'Agarre neutro con las palmas enfrentadas, sube hasta la barbilla y baja con control.',
+  'Remo aislado con mancuerna':'Una mano y una rodilla en el banco, tira de la mancuerna hacia la cadera con el codo pegado.',
+  'Dominada mixta':'Una mano en pronación y la otra en supinación, sube hasta la barbilla y alterna el agarre cada serie.',
+  'Dominada circular en supinación':'Con las palmas hacia ti, sube describiendo un movimiento circular controlado y baja.',
+  'Dominada lateral':'Sube el cuerpo hacia un lado de la barra, lleva la barbilla hasta la mano y alterna.',
+  'Dominada trasera':'Sube llevando la barra hacia la nuca con control y baja, sin tirar del cuello.',
+  'Dominada cerrada corta':'Con el agarre cerrado, haz repeticiones cortas de la parte alta del movimiento.',
+  'Pullover con mancuerna':'Acostado en el banco con una mancuerna en ambas manos, llévala detrás de la cabeza y regresa.',
+  'Dominada a una mano asistida':'Con una mano en la barra y la otra ayudando, sube con control y baja lento.',
+  'Dominada a una mano':'Con una sola mano en la barra, sube con control y baja lento. Ejercicio avanzado.',
+  'Sentadilla en pared con mancuernas':'Espalda en la pared, con mancuernas en las manos, baja hasta que los muslos queden paralelos y sube.',
   'Remo con mancuernas (agarre neutro)':'Torso inclinado con la espalda plana, tira de las mancuernas hacia las caderas con las palmas enfrentadas.',
   'Dominada invertida':'Colgado de la barra con el cuerpo invertido, tira del cuerpo con control sin balancearte.',
   'Media sentadilla con mancuernas en banco':'Con mancuernas en las manos, siéntate en el banco y levántate sin impulso.',
