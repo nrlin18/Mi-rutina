@@ -700,6 +700,52 @@ const EX_VID = {
   'Zancadas':'video/zancadas.mp4',
   'Sentadilla con salto':'video/sentadilla-salto.mp4',
   'Plancha':'video/plancha.mp4',
+  'Remo con mancuernas (agarre neutro)':'video/remo-con-mancuernas-agarre-neutro.mp4',
+  'Dominada invertida':'video/dominada-invertida.mp4',
+  'Media sentadilla con mancuernas en banco':'video/media-sentadilla-con-mancuernas-en-banco.mp4',
+  'Paseo goblet con kettlebell':'video/paseo-goblet-con-kettlebell.mp4',
+  'Zancada con kettlebell':'video/zancada-con-kettlebell.mp4',
+  'Slingshot con kettlebell':'video/slingshot-con-kettlebell.mp4',
+  'Bent press con kettlebell':'video/bent-press-con-kettlebell.mp4',
+  'Windmill extenso con kettlebell':'video/windmill-extenso-con-kettlebell.mp4',
+  'Elevación de piernas alternas colgado':'video/elevacion-de-piernas-alternas-colgado.mp4',
+  'Elevación de piernas flexionadas colgado':'video/elevacion-de-piernas-flexionadas-colgado.mp4',
+  'Elevación de cadera con piernas estiradas en banco':'video/elevacion-de-cadera-con-piernas-estiradas-en-banco.mp4',
+  'Marcha horizontal alterna en banco':'video/marcha-horizontal-alterna-en-banco.mp4',
+  'Abdominales en V con mancuerna':'video/abdominales-en-v-con-mancuerna.mp4',
+  'Puente lateral con mancuerna':'video/puente-lateral-con-mancuerna.mp4',
+  'Crunch lateral con kettlebell':'video/crunch-lateral-con-kettlebell.mp4',
+  'Remo en pronación con mancuernas':'video/remo-en-pronacion-con-mancuernas.mp4',
+  'Remo en supinación con mancuernas':'video/remo-en-supinacion-con-mancuernas.mp4',
+  'Elevación de talones con mancuernas':'video/elevacion-de-talones-con-mancuernas.mp4',
+  'Remo en sentadilla sumo con kettlebell':'video/remo-en-sentadilla-sumo-con-kettlebell.mp4',
+  'Step up con kettlebell':'video/step-up-con-kettlebell.mp4',
+  'Windmill doble con kettlebell':'video/windmill-doble-con-kettlebell.mp4',
+  'Elevación de piernas laterales colgado':'video/elevacion-de-piernas-laterales-colgado.mp4',
+  'Marcha horizontal alterna con palmada en banco':'video/marcha-horizontal-alterna-con-palmada-en-banco.mp4',
+  'Crunch inferior sentado en banco':'video/crunch-inferior-sentado-en-banco.mp4',
+  'Russian twist con mancuerna':'video/russian-twist-con-mancuerna.mp4',
+  'Crunch lateral con mancuerna':'video/crunch-lateral-con-mancuerna.mp4',
+  'Giros de cintura doblado con barra':'video/giros-de-cintura-doblado-con-barra.mp4',
+  'Crunch lateral con barra':'video/crunch-lateral-con-barra.mp4',
+  'Remo doble inclinado con kettlebell':'video/remo-doble-inclinado-con-kettlebell.mp4',
+  'Remo alterno inclinado con kettlebell':'video/remo-alterno-inclinado-con-kettlebell.mp4',
+  'Remo a una mano con kettlebell':'video/remo-a-una-mano-con-kettlebell.mp4',
+  'Sentadilla overhead con kettlebell':'video/sentadilla-overhead-con-kettlebell.mp4',
+  'Windmill con kettlebell':'video/windmill-con-kettlebell.mp4',
+  'Zancada reverencia con kettlebell':'video/zancada-reverencia-con-kettlebell.mp4',
+  'Elevación de piernas estiradas colgado':'video/elevacion-de-piernas-estiradas-colgado.mp4',
+  'Elevación total colgado':'video/elevacion-total-colgado.mp4',
+  'Pullover supino con kettlebell':'video/pullover-supino-con-kettlebell.mp4',
+  'Crunch cruzado concentrado elevado':'video/crunch-cruzado-concentrado-elevado.mp4',
+  'Crunch superior concentrado elevado':'video/crunch-superior-concentrado-elevado.mp4',
+  'Crunch inferior en círculos en banco':'video/crunch-inferior-en-circulos-en-banco.mp4',
+  'Remo renegado con kettlebell':'video/remo-renegado-con-kettlebell.mp4',
+  'Sit-up con kettlebell':'video/sit-up-con-kettlebell.mp4',
+  'Russian twist con kettlebell':'video/russian-twist-con-kettlebell.mp4',
+  'Pasamanos agachado con kettlebell':'video/pasamanos-agachado-con-kettlebell.mp4',
+  'Puente lateral declinado':'video/puente-lateral-declinado.mp4',
+  'Plancha lateral inclinada':'video/plancha-lateral-inclinada.mp4',
   'Cocoons':'video/cocoons.mp4',
   'Limpiaparabrisas (piernas estiradas)':'video/limpiaparabrisas-estirado.mp4',
   'Limpiaparabrisas (rodillas flexionadas)':'video/limpiaparabrisas-flexionado.mp4',
@@ -919,7 +965,25 @@ const EXTRA_LEGS = {
   12:ex('Sentadilla pistola asistida','Piernas / Equilibrio','3 × 5 c/pierna','Sobre una pierna, baja lo más profundo que puedas apoyándote de una pared o silla.','stand','squatDown','Apoya menos la mano.')
 };
 GYM_PLAN.forEach((p,i)=>{ if(EXTRA_LEGS[i]) p.exercises.push(EXTRA_LEGS[i]); });
-const DAYS = GYM_PLAN.map((p,i)=>({ id:i, key:'d'+(i+1), label:`Sem ${Math.floor(i/5)+1} · ${WEEKDAY_NAMES[i%5]}`, short:WEEKDAY_SHORT[i%5], type:'gym', title:p.title, tag:p.tag, exercises:p.exercises }));
+let eqMode=true; try{ if(localStorage.getItem('eqMode')==='0') eqMode=false; }catch(e){}
+const EXTRA_EQ = {
+  1:[Object.assign(ex('Remo con mancuernas (agarre neutro)','Espalda / Bíceps','4 × 10','Torso inclinado con la espalda plana, tira de las mancuernas hacia las caderas con las palmas enfrentadas.','hingeBottom','rowEnd','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Dominada invertida','Espalda / Bíceps','3 × 6-8','Colgado de la barra con el cuerpo invertido, tira del cuerpo con control sin balancearte.','pullBottom','pullTop','Sube el peso poco a poco manteniendo la técnica.'),{eq:true})],
+  2:[Object.assign(ex('Media sentadilla con mancuernas en banco','Piernas / Glúteo','3 × 12','Con mancuernas en las manos, siéntate en el banco y levántate sin impulso.','stand','squatDown','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Paseo goblet con kettlebell','Piernas / Core','3 × 30 seg','Sostén la kettlebell al pecho y camina con pasos controlados y el torso erguido.','stand','squatDown','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Zancada con kettlebell','Piernas / Glúteo','3 × 10 c/pierna','Con la kettlebell en una mano, da un paso largo y baja la rodilla trasera casi al piso.','stand','squatDown','Sube el peso poco a poco manteniendo la técnica.'),{eq:true})],
+  3:[Object.assign(ex('Slingshot con kettlebell','Hombro / Core','3 × 10 c/sentido','Pasa la kettlebell alrededor de la cintura de una mano a la otra con control.','stand','overheadUp','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Bent press con kettlebell','Hombro / Core','3 × 6 c/lado','Inclínate hacia el costado empujando la kettlebell hacia arriba mientras la mirada la sigue.','stand','overheadUp','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Windmill extenso con kettlebell','Core / Hombro','3 × 6 c/lado','Con la kettlebell arriba, baja el torso llevando la cadera atrás y la mirada en la pesa.','lyBikeA','lyBikeB','Sube el peso poco a poco manteniendo la técnica.'),{eq:true})],
+  4:[Object.assign(ex('Elevación de piernas alternas colgado','Core inferior','3 × 10','Colgado de la barra, sube una rodilla y luego la otra sin balancearte.','pullBottom','pullTop','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Elevación de piernas flexionadas colgado','Core inferior','3 × 10','Colgado de la barra, sube las rodillas hacia el pecho sin balancearte.','pullBottom','pullTop','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Elevación de cadera con piernas estiradas en banco','Core inferior','3 × 12','Acostado en el banco agarrando atrás, sube las piernas estiradas y la cadera.','lyBikeA','lyBikeB','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Marcha horizontal alterna en banco','Core inferior','3 × 20','Sentado en el borde del banco, alterna las rodillas hacia el pecho.','lyBikeA','lyBikeB','Sube el peso poco a poco manteniendo la técnica.'),{eq:true})],
+  5:[Object.assign(ex('Abdominales en V con mancuerna','Core','3 × 12','Boca arriba con una mancuerna, sube tronco y piernas formando una V.','lyBikeA','lyBikeB','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Puente lateral con mancuerna','Core / Oblicuos','3 × 10 c/lado','En plancha lateral, sube y baja la cadera con una mancuerna apoyada en la cadera.','lyBikeA','lyBikeB','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Crunch lateral con kettlebell','Core / Oblicuos','3 × 12 c/lado','De pie con la kettlebell a un lado, inclina el torso hacia ese lado.','lyBikeA','lyBikeB','Sube el peso poco a poco manteniendo la técnica.'),{eq:true})],
+  6:[Object.assign(ex('Remo en pronación con mancuernas','Espalda','4 × 10','Torso inclinado, palmas hacia atrás, tira de las mancuernas hacia el abdomen.','hingeBottom','rowEnd','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Remo en supinación con mancuernas','Espalda / Bíceps','3 × 10','Torso inclinado, palmas hacia adelante, tira de las mancuernas hacia la cintura.','hingeBottom','rowEnd','Sube el peso poco a poco manteniendo la técnica.'),{eq:true})],
+  7:[Object.assign(ex('Elevación de talones con mancuernas','Pantorrilla','3 × 15','Con mancuernas en las manos, sube sobre las puntas de los pies y baja lento.','calfDown','calfUp','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Remo en sentadilla sumo con kettlebell','Piernas / Hombro','3 × 12','Pies abiertos en sumo, baja en sentadilla y sube la kettlebell hasta el pecho.','hingeBottom','rowEnd','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Step up con kettlebell','Piernas / Glúteo','3 × 10 c/pierna','Con la kettlebell en una mano, sube al escalón empujando con el talón y baja con control.','stand','squatDown','Sube el peso poco a poco manteniendo la técnica.'),{eq:true})],
+  8:[Object.assign(ex('Windmill doble con kettlebell','Core / Hombro','3 × 6 c/lado','Con una kettlebell arriba y otra abajo, inclina el torso llevando la cadera atrás.','lyBikeA','lyBikeB','Sube el peso poco a poco manteniendo la técnica.'),{eq:true})],
+  9:[Object.assign(ex('Elevación de piernas laterales colgado','Core / Oblicuos','3 × 8 c/lado','Colgado de la barra, sube las rodillas hacia un costado y alterna.','pullBottom','pullTop','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Marcha horizontal alterna con palmada en banco','Core inferior','3 × 16','Sentado en el borde del banco, alterna rodillas al pecho dando una palmada.','lyBikeA','lyBikeB','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Crunch inferior sentado en banco','Core inferior','3 × 15','Sentado en el borde del banco, lleva las rodillas al pecho y vuelve a extender.','lyBikeA','lyBikeB','Sube el peso poco a poco manteniendo la técnica.'),{eq:true})],
+  10:[Object.assign(ex('Russian twist con mancuerna','Core / Oblicuos','3 × 20','Sentado con los pies elevados, gira el tronco sosteniendo una mancuerna.','lyBikeA','lyBikeB','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Crunch lateral con mancuerna','Core / Oblicuos','3 × 12 c/lado','De pie con una mancuerna a un lado, inclina el torso hacia ese lado.','lyBikeA','lyBikeB','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Giros de cintura doblado con barra','Core / Oblicuos','3 × 12','Doblado hacia adelante con una barra en las manos, gira el torso de lado a lado.','lyBikeA','lyBikeB','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Crunch lateral con barra','Core / Oblicuos','3 × 12 c/lado','Con la barra sobre los hombros, inclina el torso hacia un lado.','lyBikeA','lyBikeB','Sube el peso poco a poco manteniendo la técnica.'),{eq:true})],
+  11:[Object.assign(ex('Remo doble inclinado con kettlebell','Espalda','4 × 10','Torso inclinado, tira de las dos kettlebells hacia las caderas.','hingeBottom','rowEnd','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Remo alterno inclinado con kettlebell','Espalda','3 × 10 c/lado','Torso inclinado, tira de una kettlebell a la vez hacia la cadera.','hingeBottom','rowEnd','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Remo a una mano con kettlebell','Espalda / Bíceps','3 × 10 c/lado','Con una mano apoyada, tira de la kettlebell hacia la cadera con el codo pegado.','hingeBottom','rowEnd','Sube el peso poco a poco manteniendo la técnica.'),{eq:true})],
+  12:[Object.assign(ex('Sentadilla overhead con kettlebell','Piernas / Hombro','3 × 10','Con la kettlebell sobre la cabeza y el brazo estirado, baja en sentadilla.','stand','squatDown','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Windmill con kettlebell','Core / Hombro','3 × 6 c/lado','Con la kettlebell arriba, baja el torso llevando la cadera atrás.','lyBikeA','lyBikeB','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Zancada reverencia con kettlebell','Piernas / Glúteo','3 × 10 c/pierna','Con la kettlebell al pecho, cruza una pierna atrás en reverencia y baja con control.','stand','squatDown','Sube el peso poco a poco manteniendo la técnica.'),{eq:true})],
+  13:[Object.assign(ex('Elevación de piernas estiradas colgado','Core inferior','3 × 8','Colgado de la barra, sube las piernas estiradas hasta la horizontal.','pullBottom','pullTop','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Elevación total colgado','Core','3 × 6','Colgado de la barra, lleva los pies hasta la barra con control.','pullBottom','pullTop','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Pullover supino con kettlebell','Espalda / Pecho','3 × 12','Acostado con la kettlebell en ambas manos, llévala detrás de la cabeza y regresa.','hingeBottom','rowEnd','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Crunch cruzado concentrado elevado','Core / Oblicuos','3 × 12 c/lado','Con las piernas sobre el banco, lleva el codo hacia la rodilla contraria.','lyBikeA','lyBikeB','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Crunch superior concentrado elevado','Core','3 × 15','Con las piernas sobre el banco, sube el tronco contrayendo el abdomen.','lyBikeA','lyBikeB','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Crunch inferior en círculos en banco','Core inferior','3 × 12','Sentado en el borde del banco, dibuja círculos con las piernas.','lyBikeA','lyBikeB','Sube el peso poco a poco manteniendo la técnica.'),{eq:true})],
+  14:[Object.assign(ex('Remo renegado con kettlebell','Espalda / Core','3 × 8 c/lado','En plancha alta con las manos en las kettlebells, rema alterno sin girar la cadera.','hingeBottom','rowEnd','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Sit-up con kettlebell','Core','3 × 12','Boca arriba con la kettlebell estirada sobre el pecho, sube el tronco.','lyBikeA','lyBikeB','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Russian twist con kettlebell','Core / Oblicuos','3 × 20','Sentado con los pies elevados, gira el tronco con la kettlebell.','lyBikeA','lyBikeB','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Pasamanos agachado con kettlebell','Core / Oblicuos','3 × 10 c/lado','Agachado, pasa la kettlebell de una mano a la otra bajo el cuerpo.','lyBikeA','lyBikeB','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Puente lateral declinado','Core / Oblicuos','3 × 30 seg c/lado','Con los pies sobre un banco, mantén la plancha lateral con la cadera alta.','lyBikeA','lyBikeB','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Plancha lateral inclinada','Core / Oblicuos','3 × 30 seg c/lado','Con el antebrazo o la mano en el banco, mantén el cuerpo en línea recta de lado.','lyBikeA','lyBikeB','Sube el peso poco a poco manteniendo la técnica.'),{eq:true})]
+};
+GYM_PLAN.forEach((p,i)=>{ if(EXTRA_EQ[i]) p.exercises.push(...EXTRA_EQ[i]); });
+const DAYS = GYM_PLAN.map((p,i)=>({ id:i, key:'d'+(i+1), label:`Sem ${Math.floor(i/5)+1} · ${WEEKDAY_NAMES[i%5]}`, short:WEEKDAY_SHORT[i%5], type:'gym', title:p.title, tag:p.tag, _all:p.exercises, get exercises(){ return eqMode ? this._all : this._all.filter(e=>!e.eq); } }));
 
 const RUN_PLANS = {
   sab:{ label:'Sábado', title:'Carrera continua', tag:'Ritmo moderado, 30–40 min',
@@ -1154,7 +1218,13 @@ function renderRack(){
   if(!wt){ wt=document.createElement('div'); wt.id='weekTabs'; wt.style.cssText='display:flex;gap:8px;padding:12px 18px 0;';
     rack.parentNode.insertBefore(wt,rack); }
   wt.innerHTML=[0,1,2].map(w=>`<button data-w="${w}" style="flex:1;padding:8px 0;border-radius:8px;border:1px solid ${w===activeWeek?'var(--gym)':'#3a3833'};background:${w===activeWeek?'var(--gym)':'transparent'};color:${w===activeWeek?'#fff':'var(--chalk, #ddd)'};font:600 12px Inter,sans-serif;">Semana ${w+1}</button>`).join('');
-  wt.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{ activeWeek=parseInt(b.dataset.w); stopEverything(); renderRack(); renderDay(); }));
+  wt.style.flexWrap='wrap';
+  wt.querySelectorAll('button[data-w]').forEach(b=>b.addEventListener('click',()=>{ activeWeek=parseInt(b.dataset.w); stopEverything(); renderRack(); renderDay(); }));
+  const eb=document.createElement('button'); eb.id='eqToggle';
+  eb.style.cssText='flex:1 1 100%;padding:8px 0;border-radius:8px;border:1px solid '+(eqMode?'var(--ok)':'#3a3833')+';background:transparent;color:'+(eqMode?'var(--ok)':'#bbb')+';font:600 12px Inter,sans-serif;';
+  eb.textContent=eqMode?'🏋️ Con equipo (barra, mancuernas, kettlebell, banco): SÍ':'🏠 Solo con el cuerpo — toca para añadir equipo';
+  eb.addEventListener('click',()=>{ eqMode=!eqMode; try{localStorage.setItem('eqMode',eqMode?'1':'0');}catch(e){} stopEverything(); renderRack(); renderDay(); });
+  wt.appendChild(eb);
   rack.innerHTML = dayDefs.map(d=>{
     const active = d.id===activeDayId ? 'active':'';
     const kIcon = d.type==='gym' ? 'GYM' : 'RUN';
@@ -1289,6 +1359,52 @@ function renderDay(){
 
 /* ---------- VOICE INSTRUCTIONS — spoken, plain-language execution cues ---------- */
 const VOICE_INSTRUCTIONS = {
+  'Remo con mancuernas (agarre neutro)':'Torso inclinado con la espalda plana, tira de las mancuernas hacia las caderas con las palmas enfrentadas.',
+  'Dominada invertida':'Colgado de la barra con el cuerpo invertido, tira del cuerpo con control sin balancearte.',
+  'Media sentadilla con mancuernas en banco':'Con mancuernas en las manos, siéntate en el banco y levántate sin impulso.',
+  'Paseo goblet con kettlebell':'Sostén la kettlebell al pecho y camina con pasos controlados y el torso erguido.',
+  'Zancada con kettlebell':'Con la kettlebell en una mano, da un paso largo y baja la rodilla trasera casi al piso.',
+  'Slingshot con kettlebell':'Pasa la kettlebell alrededor de la cintura de una mano a la otra con control.',
+  'Bent press con kettlebell':'Inclínate hacia el costado empujando la kettlebell hacia arriba mientras la mirada la sigue.',
+  'Windmill extenso con kettlebell':'Con la kettlebell arriba, baja el torso llevando la cadera atrás y la mirada en la pesa.',
+  'Elevación de piernas alternas colgado':'Colgado de la barra, sube una rodilla y luego la otra sin balancearte.',
+  'Elevación de piernas flexionadas colgado':'Colgado de la barra, sube las rodillas hacia el pecho sin balancearte.',
+  'Elevación de cadera con piernas estiradas en banco':'Acostado en el banco agarrando atrás, sube las piernas estiradas y la cadera.',
+  'Marcha horizontal alterna en banco':'Sentado en el borde del banco, alterna las rodillas hacia el pecho.',
+  'Abdominales en V con mancuerna':'Boca arriba con una mancuerna, sube tronco y piernas formando una V.',
+  'Puente lateral con mancuerna':'En plancha lateral, sube y baja la cadera con una mancuerna apoyada en la cadera.',
+  'Crunch lateral con kettlebell':'De pie con la kettlebell a un lado, inclina el torso hacia ese lado.',
+  'Remo en pronación con mancuernas':'Torso inclinado, palmas hacia atrás, tira de las mancuernas hacia el abdomen.',
+  'Remo en supinación con mancuernas':'Torso inclinado, palmas hacia adelante, tira de las mancuernas hacia la cintura.',
+  'Elevación de talones con mancuernas':'Con mancuernas en las manos, sube sobre las puntas de los pies y baja lento.',
+  'Remo en sentadilla sumo con kettlebell':'Pies abiertos en sumo, baja en sentadilla y sube la kettlebell hasta el pecho.',
+  'Step up con kettlebell':'Con la kettlebell en una mano, sube al escalón empujando con el talón y baja con control.',
+  'Windmill doble con kettlebell':'Con una kettlebell arriba y otra abajo, inclina el torso llevando la cadera atrás.',
+  'Elevación de piernas laterales colgado':'Colgado de la barra, sube las rodillas hacia un costado y alterna.',
+  'Marcha horizontal alterna con palmada en banco':'Sentado en el borde del banco, alterna rodillas al pecho dando una palmada.',
+  'Crunch inferior sentado en banco':'Sentado en el borde del banco, lleva las rodillas al pecho y vuelve a extender.',
+  'Russian twist con mancuerna':'Sentado con los pies elevados, gira el tronco sosteniendo una mancuerna.',
+  'Crunch lateral con mancuerna':'De pie con una mancuerna a un lado, inclina el torso hacia ese lado.',
+  'Giros de cintura doblado con barra':'Doblado hacia adelante con una barra en las manos, gira el torso de lado a lado.',
+  'Crunch lateral con barra':'Con la barra sobre los hombros, inclina el torso hacia un lado.',
+  'Remo doble inclinado con kettlebell':'Torso inclinado, tira de las dos kettlebells hacia las caderas.',
+  'Remo alterno inclinado con kettlebell':'Torso inclinado, tira de una kettlebell a la vez hacia la cadera.',
+  'Remo a una mano con kettlebell':'Con una mano apoyada, tira de la kettlebell hacia la cadera con el codo pegado.',
+  'Sentadilla overhead con kettlebell':'Con la kettlebell sobre la cabeza y el brazo estirado, baja en sentadilla.',
+  'Windmill con kettlebell':'Con la kettlebell arriba, baja el torso llevando la cadera atrás.',
+  'Zancada reverencia con kettlebell':'Con la kettlebell al pecho, cruza una pierna atrás en reverencia y baja con control.',
+  'Elevación de piernas estiradas colgado':'Colgado de la barra, sube las piernas estiradas hasta la horizontal.',
+  'Elevación total colgado':'Colgado de la barra, lleva los pies hasta la barra con control.',
+  'Pullover supino con kettlebell':'Acostado con la kettlebell en ambas manos, llévala detrás de la cabeza y regresa.',
+  'Crunch cruzado concentrado elevado':'Con las piernas sobre el banco, lleva el codo hacia la rodilla contraria.',
+  'Crunch superior concentrado elevado':'Con las piernas sobre el banco, sube el tronco contrayendo el abdomen.',
+  'Crunch inferior en círculos en banco':'Sentado en el borde del banco, dibuja círculos con las piernas.',
+  'Remo renegado con kettlebell':'En plancha alta con las manos en las kettlebells, rema alterno sin girar la cadera.',
+  'Sit-up con kettlebell':'Boca arriba con la kettlebell estirada sobre el pecho, sube el tronco.',
+  'Russian twist con kettlebell':'Sentado con los pies elevados, gira el tronco con la kettlebell.',
+  'Pasamanos agachado con kettlebell':'Agachado, pasa la kettlebell de una mano a la otra bajo el cuerpo.',
+  'Puente lateral declinado':'Con los pies sobre un banco, mantén la plancha lateral con la cadera alta.',
+  'Plancha lateral inclinada':'Con el antebrazo o la mano en el banco, mantén el cuerpo en línea recta de lado.',
   'Zancada hacia atrás':'Da un paso largo hacia atrás, baja la rodilla casi hasta el piso y empuja con la pierna de adelante para volver.',
   'Zancada lateral':'Da un paso largo hacia el costado, lleva la cadera hacia atrás sobre esa pierna y empuja para volver.',
   'Zancada con salto':'En posición de zancada, salta cambiando de pierna en el aire y aterriza suave.',
