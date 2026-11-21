@@ -700,6 +700,7 @@ const EX_VID = {
   'Zancadas':'video/zancadas.mp4',
   'Sentadilla con salto':'video/sentadilla-salto.mp4',
   'Plancha':'video/plancha.mp4',
+  'Elevación de talones a una pierna con banda':'video/talones-una-pierna-banda.mp4',
   'Dominada':'video/dominada.mp4',
   'Retracción escapular colgado':'video/retraccion-escapular-colgado.mp4',
   'Dominada en supinación':'video/dominada-en-supinacion.mp4',
@@ -1008,6 +1009,7 @@ const EXTRA_EQ2 = {
   12:[Object.assign(ex('Sentadilla en pared con mancuernas','Piernas / Glúteo','3 × 12','Espalda en la pared, con mancuernas en las manos, baja hasta que los muslos queden paralelos y sube.','stand','squatDown','Cuando domines el rango alto, añade pausa de 2 seg arriba.'),{eq:true})]
 };
 GYM_PLAN.forEach((p,i)=>{ if(EXTRA_EQ2[i]) p.exercises.push(...EXTRA_EQ2[i]); });
+GYM_PLAN[7].exercises.push(Object.assign(ex('Elevación de talones a una pierna con banda','Pantorrilla','3 × 12 c/pierna','De pie sobre una plataforma con una banda elástica bajo el pie, sube sobre la punta de un solo pie y baja lento.','calfDown','calfUp','Usa una banda más fuerte.'),{eq:true}));
 const DAYS = GYM_PLAN.map((p,i)=>({ id:i, key:'d'+(i+1), label:`Sem ${Math.floor(i/5)+1} · ${WEEKDAY_NAMES[i%5]}`, short:WEEKDAY_SHORT[i%5], type:'gym', title:p.title, tag:p.tag, _all:p.exercises, get exercises(){ return eqMode ? this._all : this._all.filter(e=>!e.eq); } }));
 
 const RUN_PLANS = {
@@ -1384,6 +1386,7 @@ function renderDay(){
 
 /* ---------- VOICE INSTRUCTIONS — spoken, plain-language execution cues ---------- */
 const VOICE_INSTRUCTIONS = {
+  'Elevación de talones a una pierna con banda':'De pie sobre una plataforma con una banda elástica bajo el pie, sube sobre la punta de un solo pie y baja lento.',
   'Dominada':'Colgado de la barra, tira del cuerpo hasta llevar la barbilla sobre la barra y baja con control sin balancearte.',
   'Retracción escapular colgado':'Colgado de la barra con los brazos estirados, junta los omóplatos para subir un poco el cuerpo y suelta con control.',
   'Dominada en supinación':'Agarre con las palmas hacia ti, sube hasta que la barbilla pase la barra y baja con control.',
