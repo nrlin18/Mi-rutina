@@ -693,6 +693,13 @@ const EX_VID = {
   'Zancada lateral cruzada':'video/zancada-cruzada.mp4',
   'Subida al escalón (step up)':'video/step-up.mp4',
   'Remo inclinado con mochila':'video/remo-mochila.mp4',
+  'Zancada hacia atrás':'video/zancada-atras.mp4',
+  'Zancada lateral':'video/zancada-lateral.mp4',
+  'Zancada con salto':'video/zancada-salto.mp4',
+  'Sentadilla pistola asistida':'video/pistola.mp4',
+  'Zancadas':'video/zancadas.mp4',
+  'Sentadilla con salto':'video/sentadilla-salto.mp4',
+  'Plancha':'video/plancha.mp4',
   'Cocoons':'video/cocoons.mp4',
   'Limpiaparabrisas (piernas estiradas)':'video/limpiaparabrisas-estirado.mp4',
   'Limpiaparabrisas (rodillas flexionadas)':'video/limpiaparabrisas-flexionado.mp4',
@@ -905,6 +912,13 @@ const EXTRA_CORE2 = {
   14:ex('Crunch lateral horizontal','Core / Oblicuos','3 × 15 c/lado','Con las rodillas flexionadas hacia un lado, sube el tronco hacia ellas.','lyBikeA','lyBikeB','Pausa arriba.')
 };
 GYM_PLAN.forEach((p,i)=>{ if(EXTRA_CORE2[i]) p.exercises.push(EXTRA_CORE2[i]); });
+const EXTRA_LEGS = {
+  2:ex('Zancada hacia atrás','Piernas / Glúteo','3 × 12 c/pierna','Da un paso largo hacia atrás y baja la rodilla casi al piso, empuja con la pierna de adelante.','stand','lungeFront','Pausa 2 seg abajo.'),
+  7:ex('Zancada lateral','Piernas / Glúteo','3 × 10 c/lado','Da un paso largo al costado, lleva la cadera atrás sobre esa pierna y empuja para volver.','stand','squatDown','Más profundidad.'),
+  8:ex('Zancada con salto','Piernas / Cardio','3 × 12 total','En zancada, salta cambiando de pierna en el aire y aterriza suave.','lungeFront','jump','Más rápido.'),
+  12:ex('Sentadilla pistola asistida','Piernas / Equilibrio','3 × 5 c/pierna','Sobre una pierna, baja lo más profundo que puedas apoyándote de una pared o silla.','stand','squatDown','Apoya menos la mano.')
+};
+GYM_PLAN.forEach((p,i)=>{ if(EXTRA_LEGS[i]) p.exercises.push(EXTRA_LEGS[i]); });
 const DAYS = GYM_PLAN.map((p,i)=>({ id:i, key:'d'+(i+1), label:`Sem ${Math.floor(i/5)+1} · ${WEEKDAY_NAMES[i%5]}`, short:WEEKDAY_SHORT[i%5], type:'gym', title:p.title, tag:p.tag, exercises:p.exercises }));
 
 const RUN_PLANS = {
@@ -1275,6 +1289,10 @@ function renderDay(){
 
 /* ---------- VOICE INSTRUCTIONS — spoken, plain-language execution cues ---------- */
 const VOICE_INSTRUCTIONS = {
+  'Zancada hacia atrás':'Da un paso largo hacia atrás, baja la rodilla casi hasta el piso y empuja con la pierna de adelante para volver.',
+  'Zancada lateral':'Da un paso largo hacia el costado, lleva la cadera hacia atrás sobre esa pierna y empuja para volver.',
+  'Zancada con salto':'En posición de zancada, salta cambiando de pierna en el aire y aterriza suave.',
+  'Sentadilla pistola asistida':'Sobre una sola pierna, baja lo más profundo que puedas, con la otra estirada al frente, apoyándote en una pared o silla.',
   'Cocoons':'Boca arriba, junta rodillas y brazos al pecho como un capullo y vuelve a estirarte sin tocar el piso.',
   'Limpiaparabrisas (piernas estiradas)':'Boca arriba con los brazos abiertos y las piernas verticales, baja las piernas hacia un lado sin tocar el piso y alterna.',
   'Limpiaparabrisas (rodillas flexionadas)':'Boca arriba con las rodillas flexionadas y juntas, bájalas hacia un lado y regresa al centro.',
