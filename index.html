@@ -678,7 +678,25 @@ const EX_IMG = {
   'Sentadillas':'img/sentadillas.jpg','Plancha':'img/plancha.jpg'
 };
 const EX_VID = {
-  'Rodillas altas':'video/rodillas-altas.mp4'
+  'Rodillas altas':'video/rodillas-altas.mp4',
+  'Plancha lateral':'video/plancha-lateral.mp4',
+  'Dead bug':'video/dead-bug.mp4',
+  'Crunch inferior sentado':'video/crunch-inferior.mp4',
+  'Russian twist (sin peso)':'video/russian-twist.mp4',
+  'Abdominales en V':'video/abdominales-v.mp4',
+  'Crunch lateral de pie':'video/crunch-lateral.mp4',
+  'Elevación de talones':'video/talones.mp4',
+  'Elevación de talones a una pierna':'video/talones-una-pierna.mp4',
+  'Sentadilla profunda con pulsos':'video/sentadilla-profunda.mp4',
+  'Sentadilla búlgara':'video/sentadilla-bulgara.mp4',
+  'Puente de glúteo a una pierna':'video/puente-una-pierna.mp4',
+  'Zancada lateral cruzada':'video/zancada-cruzada.mp4',
+  'Subida al escalón (step up)':'video/step-up.mp4',
+  'Remo inclinado con mochila':'video/remo-mochila.mp4'
+};
+const RUN_CLIPS = {
+  'sab:0':'video/calentamiento.mp4','sab:1':'video/carrera-continua.mp4','sab:2':'video/estiramiento.mp4',
+  'dom:0':'video/caminar-ligero.mp4','dom:1':'video/carrera-continua.mp4','dom:2':'video/caminar.mp4'
 };
 function thumbUrl(id){ return `https://img.youtube.com/vi/${id}/hqdefault.jpg`; }
 function videoUrl(id){ return `https://www.youtube.com/watch?v=${id}`; }
@@ -742,7 +760,8 @@ const GYM_PLAN = [
    ex('Abdominales bicicleta','Core','3 × 20','Codo hacia rodilla contraria, controla el movimiento.','lyBikeA','lyBikeB','Ralentiza el tempo.'),
    ex('Plancha lateral','Core','3 × 30 seg c/lado','Cadera alta, cuerpo en línea recta.','sidePlank','sidePlank','Añade elevación de pierna.'),
    ex('Dead bug','Core / Abdomen profundo','3 × 10 c/lado','Espalda pegada al piso, baja brazo y pierna contrarios lentamente.','lyDeadA','lyDeadB','Hazlo en 4 segundos por repetición.'),
-   ex('Plancha','Core','3 × 45-60 seg','Respira, no dejes caer la cadera.','plank','plank','Pasa a plancha con toque de hombro.')
+   ex('Crunch inferior sentado','Core inferior','3 × 15','Sentado, inclínate hacia atrás y lleva las rodillas al pecho sin balancearte.','lyLegsDown','lyLegsUp','Pausa de 2 seg con las rodillas arriba.'),
+   ex('Crunch lateral de pie','Core / Oblicuos','3 × 15 c/lado','De pie, mano en la nuca, inclina el torso hacia el lado apretando el costado. Sin peso.','stand','hipCircle','Hazlo más lento.')
   ]},
  /* ===== SEMANA 2 — volumen y variantes ===== */
  {title:'Día 6 — Reto de flexiones', tag:'Semana 2 · volumen y variantes',
@@ -770,7 +789,8 @@ const GYM_PLAN = [
    ex('Zancada caminando','Piernas / Glúteo','3 × 12 c/pierna','Da pasos largos hacia adelante, rodilla trasera casi al piso.','stand','walkLunge','Más pasos.'),
    ex('Puente de glúteo a una pierna','Glúteo / Isquiotibiales','3 × 12 c/pierna','Una pierna extendida, empuja con el talón de la otra.','thrustDown','thrustUp','Pausa 2 seg arriba.'),
    ex('Silla invisible (pared)','Piernas / Isométrico','3 × 45 seg','Muslos paralelos al piso, espalda en la pared.','wallStand','wallSit','Más tiempo.'),
-   ex('Elevación de talones a una pierna','Pantorrilla','3 × 12 c/pierna','Sube lo más alto, baja lento sobre una sola pierna.','calfDown','calfUp','Pausa arriba.')
+   ex('Elevación de talones a una pierna','Pantorrilla','3 × 12 c/pierna','Sube lo más alto, baja lento sobre una sola pierna.','calfDown','calfUp','Pausa arriba.'),
+   ex('Subida al escalón (step up)','Piernas / Glúteo','3 × 10 c/pierna','Sube a una silla firme empujando con el talón de la pierna adelantada, baja con control.','stand','lungeFront','Usa una silla más alta o una mochila con libros.')
   ]},
  {title:'Día 9 — Circuito quemagrasa', tag:'Semana 2 · volumen y variantes',
   exercises:[
@@ -788,7 +808,7 @@ const GYM_PLAN = [
    ex('Puente de glúteo isométrico','Glúteo','3 × 40 seg','Sostén arriba apretando el glúteo.','thrustDown','thrustUp','Pasa a una pierna.'),
    ex('Plancha hueca (hollow hold)','Core','3 × 20-30 seg','Boca arriba, espalda baja pegada al piso, brazos y piernas elevados.','lyLegsDown','lyHollow','Estira más los brazos.'),
    ex('Plancha lateral','Core','3 × 35 seg c/lado','Cadera alta, cuerpo en línea recta.','sidePlank','sidePlank','Suma 5 seg.'),
-   ex('Plancha','Core','3 × 60 seg','No dejes caer la cadera.','plank','plank','Plancha con elevación de pierna.')
+   ex('Russian twist (sin peso)','Core / Oblicuos','3 × 20','Sentado con el torso inclinado y los pies elevados, gira de lado a lado. Sin peso.','lyBikeA','lyBikeB','Eleva los pies del piso.')
   ]},
  /* ===== SEMANA 3 — intensidad ===== */
  {title:'Día 11 — Pecho y tríceps (intensidad)', tag:'Semana 3 · intensidad',
@@ -807,7 +827,8 @@ const GYM_PLAN = [
    ex('Superman','Espalda baja','3 × 15','Pausa de 3 segundos arriba.','proneRest','proneUp','Más pausa.'),
    ex('Y-T-W en el piso','Espalda / Hombro posterior','3 × 12 c/letra','Forma Y, T y W.','proneRest','proneUp','Sostén 3 seg.'),
    ex('Curl isométrico con toalla','Bíceps','3 × 30 seg','Tira hacia arriba resistiendo con la pierna.','curlDown','curlUp','Más tensión.'),
-   ex('Buenos días (sin peso)','Isquiotibiales / Espalda baja','3 × 20','Cadera atrás con espalda plana.','hingeTop','hingeBottom','Baja en 3 segundos.')
+   ex('Buenos días (sin peso)','Isquiotibiales / Espalda baja','3 × 20','Cadera atrás con espalda plana.','hingeTop','hingeBottom','Baja en 3 segundos.'),
+   ex('Remo inclinado con mochila','Espalda / Bíceps','3 × 12','Torso inclinado con espalda plana, tira de una mochila con libros hacia el abdomen.','hingeBottom','rowEnd','Agrega libros a la mochila.')
   ]},
  {title:'Día 13 — Piernas y glúteo (intensidad)', tag:'Semana 3 · intensidad',
   exercises:[
@@ -816,7 +837,8 @@ const GYM_PLAN = [
    ex('Zancada caminando','Piernas / Glúteo','3 × 15 c/pierna','Pasos largos y controlados.','stand','walkLunge','Más pasos.'),
    ex('Puente de glúteo a una pierna','Glúteo / Isquiotibiales','3 × 15 c/pierna','Empuja con el talón y aprieta arriba.','thrustDown','thrustUp','Pausa 3 seg.'),
    ex('Silla invisible (pared)','Piernas / Isométrico','3 × 60 seg','Muslos paralelos al piso.','wallStand','wallSit','Más tiempo.'),
-   ex('Elevación de talones a una pierna','Pantorrilla','3 × 15 c/pierna','Sube alto, baja lento.','calfDown','calfUp','Pausa arriba.')
+   ex('Elevación de talones a una pierna','Pantorrilla','3 × 15 c/pierna','Sube alto, baja lento.','calfDown','calfUp','Pausa arriba.'),
+   ex('Zancada lateral cruzada','Piernas / Glúteo','3 × 12 c/pierna','Lleva una pierna atrás en diagonal, cruzándola detrás, y baja con control.','stand','lungeFront','Agrega pausa abajo.')
   ]},
  {title:'Día 14 — Hombros y core (intensidad)', tag:'Semana 3 · intensidad',
   exercises:[
@@ -825,7 +847,8 @@ const GYM_PLAN = [
    ex('Pájaros (elevación posterior)','Hombro posterior','3 × 20','Abre los brazos apretando escápulas.','hingeBottom','rowEnd','Sostén 2 seg.'),
    ex('Plancha con toque de hombro','Hombro / Core','3 × 24 toques','Cadera estable.','shoulderTapPlank','shoulderTap','Más lento.'),
    ex('Plancha hueca (hollow hold)','Core','3 × 30 seg','Espalda baja pegada al piso.','lyLegsDown','lyHollow','Estira más.'),
-   ex('Elevación de piernas en pared','Core inferior / Suelo pélvico','3 × 15','Baja con control, sin arquear la espalda.','lyLegsDown','lyLegsUp','Pausa 2 seg abajo.')
+   ex('Elevación de piernas en pared','Core inferior / Suelo pélvico','3 × 15','Baja con control, sin arquear la espalda.','lyLegsDown','lyLegsUp','Pausa 2 seg abajo.'),
+   ex('Abdominales en V','Core','3 × 12','Boca arriba, sube tronco y piernas a la vez formando una V. Sin peso.','lyLegsDown','lyHollow','Pausa 2 seg arriba.')
   ]},
  {title:'Día 15 — Cuerpo completo y prueba final', tag:'Semana 3 · cierre del ciclo',
   exercises:[
@@ -1207,6 +1230,13 @@ function renderDay(){
 
 /* ---------- VOICE INSTRUCTIONS — spoken, plain-language execution cues ---------- */
 const VOICE_INSTRUCTIONS = {
+  'Subida al escalón (step up)':'Sube a una silla firme empujando con el talón de la pierna adelantada y baja con control.',
+  'Zancada lateral cruzada':'Lleva una pierna hacia atrás en diagonal, cruzándola detrás de la otra, y baja con control.',
+  'Remo inclinado con mochila':'Con el torso inclinado y la espalda plana, tira de la mochila hacia el abdomen apretando la espalda.',
+  'Crunch inferior sentado':'Sentado, inclínate hacia atrás y lleva las rodillas hacia el pecho, sin balancearte.',
+  'Russian twist (sin peso)':'Sentado con el torso inclinado y los pies elevados, gira el tronco de lado a lado.',
+  'Abdominales en V':'Boca arriba, sube el tronco y las piernas al mismo tiempo formando una V, y baja con control.',
+  'Crunch lateral de pie':'De pie, con la mano en la nuca, inclina el torso hacia un lado apretando el costado.',
   'Flexión isométrica a medio recorrido':'Baja el pecho hasta la mitad del recorrido y sostén esa posición sin moverte, con el cuerpo recto.',
   'Flexiones arqueras':'Separa mucho las manos, dobla un brazo bajando hacia ese lado mientras el otro queda estirado, y alterna.',
   'Flexiones rusas':'Baja el pecho y deslízalo hacia adelante extendiendo los brazos, luego regresa arriba con control.',
@@ -1544,7 +1574,9 @@ function setupRun(plan){
   updateRunClock();
 }
 function renderRunPlan(){
-  runPlanEl.innerHTML = runSteps.map((s,i)=>{
+  const clipKey = activeDayId+':'+runIdx, clip = RUN_CLIPS[clipKey];
+  const clipHtml = clip ? `<div class="pose-frame anatomy photo" style="margin-bottom:12px;border-radius:12px;"><video src="${clip}" autoplay loop muted playsinline preload="metadata"></video><div class="pose-caption">${runSteps[runIdx].name}</div></div>` : '';
+  runPlanEl.innerHTML = clipHtml + runSteps.map((s,i)=>{
     const mins = Math.round(s.seconds/60);
     return `<div class="run-step ${i===runIdx?'active':''}">
       <div class="n mono">${mins} min</div>
