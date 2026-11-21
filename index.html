@@ -693,6 +693,15 @@ const EX_VID = {
   'Zancada lateral cruzada':'video/zancada-cruzada.mp4',
   'Subida al escalón (step up)':'video/step-up.mp4',
   'Remo inclinado con mochila':'video/remo-mochila.mp4',
+  'Cocoons':'video/cocoons.mp4',
+  'Limpiaparabrisas (piernas estiradas)':'video/limpiaparabrisas-estirado.mp4',
+  'Limpiaparabrisas (rodillas flexionadas)':'video/limpiaparabrisas-flexionado.mp4',
+  'Crunch en plancha lateral':'video/crunch-plancha-lateral.mp4',
+  'Elevación de cadera con piernas estiradas':'video/cadera-piernas-estiradas.mp4',
+  'Crunch inferior cruzado alterno':'video/crunch-inferior-cruzado.mp4',
+  'Crunch cruzado con piernas elevadas':'video/crunch-cruzado-elevado.mp4',
+  'Crunch lateral horizontal':'video/crunch-lateral-horizontal.mp4',
+  'Plancha hueca (hollow hold)':'video/hollow-hold.mp4',
   'Crunch abdominal':'video/crunch-abdominal.mp4',
   'Elevación alterna de pierna estirada':'video/pierna-estirada.mp4',
   'Crunch rana (frog crunch)':'video/crunch-rana.mp4',
@@ -885,6 +894,17 @@ const EXTRA_CORE = {
   14:ex('Plancha lateral con elevación de pierna','Core / Glúteo','3 × 10 c/lado','En plancha lateral, eleva la pierna de arriba sin bajar la cadera.','sidePlank','sidePlank','Pausa 2 seg arriba.')
 };
 GYM_PLAN.forEach((p,i)=>{ if(EXTRA_CORE[i]) p.exercises.push(EXTRA_CORE[i]); });
+const EXTRA_CORE2 = {
+  1:ex('Cocoons','Core','3 × 12','Boca arriba, encoge rodillas y brazos al pecho como un capullo y estira de nuevo.','lyDeadA','lyBikeA','Más lento.'),
+  3:ex('Limpiaparabrisas (piernas estiradas)','Core / Oblicuos','3 × 10 c/lado','Boca arriba con brazos abiertos y piernas verticales, baja las piernas hacia un lado sin tocar el piso.','lyLegsUp','lyScissorsA','Baja más lento.'),
+  6:ex('Limpiaparabrisas (rodillas flexionadas)','Core / Oblicuos','3 × 12 c/lado','Con las rodillas flexionadas y juntas, bájalas hacia un lado y regresa al centro.','lyBikeA','lyBikeB','Estira las piernas.'),
+  8:ex('Crunch en plancha lateral','Core / Oblicuos','3 × 10 c/lado','En plancha lateral, lleva rodilla y codo juntos y vuelve a estirar.','sidePlank','sidePlank','Más lento.'),
+  9:ex('Elevación de cadera con piernas estiradas','Core inferior','3 × 12','Boca arriba, piernas verticales, sube la cadera hacia el techo sin balancear.','lyLegsUp','lyLegsUp','Pausa 2 seg arriba.'),
+  11:ex('Crunch inferior cruzado alterno','Core / Oblicuos','3 × 12 c/lado','Lleva la rodilla hacia el codo contrario de forma alterna con control.','lyBikeA','lyBikeB','Más lento.'),
+  13:ex('Crunch cruzado con piernas elevadas','Core / Oblicuos','3 × 15 c/lado','Con las piernas elevadas, lleva el codo hacia la rodilla contraria.','lyBikeA','lyBikeB','Más lento.'),
+  14:ex('Crunch lateral horizontal','Core / Oblicuos','3 × 15 c/lado','Con las rodillas flexionadas hacia un lado, sube el tronco hacia ellas.','lyBikeA','lyBikeB','Pausa arriba.')
+};
+GYM_PLAN.forEach((p,i)=>{ if(EXTRA_CORE2[i]) p.exercises.push(EXTRA_CORE2[i]); });
 const DAYS = GYM_PLAN.map((p,i)=>({ id:i, key:'d'+(i+1), label:`Sem ${Math.floor(i/5)+1} · ${WEEKDAY_NAMES[i%5]}`, short:WEEKDAY_SHORT[i%5], type:'gym', title:p.title, tag:p.tag, exercises:p.exercises }));
 
 const RUN_PLANS = {
@@ -1255,6 +1275,14 @@ function renderDay(){
 
 /* ---------- VOICE INSTRUCTIONS — spoken, plain-language execution cues ---------- */
 const VOICE_INSTRUCTIONS = {
+  'Cocoons':'Boca arriba, junta rodillas y brazos al pecho como un capullo y vuelve a estirarte sin tocar el piso.',
+  'Limpiaparabrisas (piernas estiradas)':'Boca arriba con los brazos abiertos y las piernas verticales, baja las piernas hacia un lado sin tocar el piso y alterna.',
+  'Limpiaparabrisas (rodillas flexionadas)':'Boca arriba con las rodillas flexionadas y juntas, bájalas hacia un lado y regresa al centro.',
+  'Crunch en plancha lateral':'En plancha lateral, lleva la rodilla y el codo de arriba hasta juntarlos y vuelve a estirar.',
+  'Elevación de cadera con piernas estiradas':'Boca arriba con las piernas verticales, sube la cadera hacia el techo sin balancear y baja con control.',
+  'Crunch inferior cruzado alterno':'Lleva una rodilla hacia el codo contrario y alterna con control.',
+  'Crunch cruzado con piernas elevadas':'Con las piernas elevadas, sube el tronco llevando un codo hacia la rodilla contraria.',
+  'Crunch lateral horizontal':'Con las rodillas flexionadas hacia un lado, sube el tronco hacia ellas apretando el costado.',
   'Crunch abdominal':'Acostado boca arriba, sube el tronco contrayendo el abdomen y baja con control.',
   'Elevación alterna de pierna estirada':'Boca arriba, eleva una pierna estirada sin despegar la espalda baja del piso y alterna.',
   'Crunch rana (frog crunch)':'Inclinado hacia atrás, lleva rodillas y codos hacia el pecho y vuelve a estirar los brazos y piernas.',
