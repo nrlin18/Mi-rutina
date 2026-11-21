@@ -4,13 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>RUTINA — Tu entrenador</title>
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#1F1E1B">
-<link rel="icon" href="icon-192.png">
-<link rel="apple-touch-icon" href="icon-192.png">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Tu Rutina">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
@@ -149,6 +142,13 @@
   .card.warmup.current{border-color:var(--warm);box-shadow:0 0 0 1px var(--warm);}
 
   .pose-frame{width:100%;height:150px;background:var(--surface-2);position:relative;overflow:hidden;}
+  .pose-frame.split{display:flex;gap:0;}
+  .pose-half{flex:1;height:100%;position:relative;min-width:0;}
+  .pose-half svg{width:100%;height:100%;display:block;}
+  .muscle-half{border-right:1px solid var(--line);background:var(--surface-2);}
+  .move-half{background:var(--surface-2);}
+  .pose-caption{position:absolute;bottom:6px;left:6px;right:6px;font-size:9px;color:var(--chalk);background:rgba(20,19,17,0.65);padding:3px 6px;border-radius:8px;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:0.03em;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .mini-video-btn{position:absolute;top:6px;right:6px;background:rgba(20,19,17,0.72);border:1px solid var(--line);color:var(--chalk);font-size:9px;padding:3px 8px;border-radius:12px;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:0.03em;z-index:3;cursor:pointer;}
   .photo-tag{position:absolute;bottom:7px;right:9px;background:rgba(20,19,17,0.78);color:var(--ok);font-size:9px;padding:3px 8px;border-radius:20px;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:0.05em;}
   .diagram-tag{position:absolute;bottom:7px;right:9px;background:rgba(20,19,17,0.6);color:var(--muted);font-size:9px;padding:3px 8px;border-radius:20px;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:0.05em;}
   .play-badge{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:44px;height:44px;border-radius:50%;background:rgba(20,19,17,0.55);color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;border:2px solid rgba(241,236,225,0.8);}
@@ -242,6 +242,13 @@
   .footer-note{padding:24px 18px 8px;font-size:11px;color:var(--muted);text-align:center;line-height:1.5;}
   ::-webkit-scrollbar{display:none;}
 </style>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1F1E1B">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Tu Rutina">
 </head>
 <body>
 <div id="app">
@@ -464,27 +471,69 @@ function combinedPoseSvg(p1key, p2key, color){
     ${figureSvg(kp2,color,false)}
   </svg>`;
 }
-function poseFrame(p1,p2,color,exName){
+/* ---------- MUSCLE MAP — original anatomical silhouette with the worked muscle highlighted ---------- */
+const BODY_NEUTRAL = '#585141';
+const BODY_BASE_SVG = `
+  <path d="M33,37 L87,37 L79,100 L41,100 Z" fill="${BODY_NEUTRAL}"/>
+  <path d="M29,40 L39,40 L32,116 L20,116 Z" fill="${BODY_NEUTRAL}"/>
+  <path d="M91,40 L81,40 L88,116 L100,116 Z" fill="${BODY_NEUTRAL}"/>
+  <path d="M41,100 L79,100 L74,121 L46,121 Z" fill="${BODY_NEUTRAL}"/>
+  <path d="M46,121 L59,121 L56,197 L43,197 Z" fill="${BODY_NEUTRAL}"/>
+  <path d="M61,121 L74,121 L77,197 L64,197 Z" fill="${BODY_NEUTRAL}"/>
+  <circle cx="60" cy="16" r="11" fill="${BODY_NEUTRAL}"/>
+  <rect x="54" y="25" width="12" height="10" rx="3" fill="${BODY_NEUTRAL}"/>
+`;
+const REGION_SVG = {
+  chest: c => `<ellipse cx="48" cy="52" rx="11" ry="9" fill="${c}"/><ellipse cx="72" cy="52" rx="11" ry="9" fill="${c}"/>`,
+  shoulders: c => `<circle cx="34" cy="42" r="9" fill="${c}"/><circle cx="86" cy="42" r="9" fill="${c}"/>`,
+  biceps: c => `<ellipse cx="27" cy="62" rx="7" ry="14" fill="${c}"/><ellipse cx="93" cy="62" rx="7" ry="14" fill="${c}"/>`,
+  triceps: c => `<ellipse cx="24" cy="72" rx="6" ry="16" fill="${c}"/><ellipse cx="96" cy="72" rx="6" ry="16" fill="${c}"/>`,
+  abs: c => `<rect x="50" y="76" width="20" height="26" rx="4" fill="${c}"/>
+    <line x1="60" y1="76" x2="60" y2="102" stroke="#1F1E1B" stroke-width="1.4"/>
+    <line x1="50" y1="85" x2="70" y2="85" stroke="#1F1E1B" stroke-width="1.4"/>
+    <line x1="50" y1="93" x2="70" y2="93" stroke="#1F1E1B" stroke-width="1.4"/>`,
+  back: c => `<path d="M36,40 L84,40 L74,95 L46,95 Z" fill="${c}"/>`,
+  lowerback: c => `<rect x="48" y="92" width="24" height="14" rx="3" fill="${c}"/>`,
+  glutes: c => `<ellipse cx="50" cy="112" rx="10" ry="8" fill="${c}"/><ellipse cx="70" cy="112" rx="10" ry="8" fill="${c}"/>`,
+  quads: c => `<ellipse cx="52" cy="150" rx="9" ry="28" fill="${c}"/><ellipse cx="68" cy="150" rx="9" ry="28" fill="${c}"/>`,
+  hamstrings: c => `<ellipse cx="52" cy="158" rx="8" ry="20" fill="${c}"/><ellipse cx="68" cy="158" rx="8" ry="20" fill="${c}"/>`,
+  calves: c => `<ellipse cx="50" cy="185" rx="7" ry="12" fill="${c}"/><ellipse cx="70" cy="185" rx="7" ry="12" fill="${c}"/>`
+};
+function primaryMuscleKey(label){
+  const first = label.split('/')[0].trim().toLowerCase();
+  if(first.includes('pecho')) return 'chest';
+  if(first.includes('hombro')) return 'shoulders';
+  if(first.includes('tríceps')) return 'triceps';
+  if(first.includes('bíceps')) return 'biceps';
+  if(first.includes('espalda baja')) return 'lowerback';
+  if(first.includes('espalda')) return 'back';
+  if(first.includes('glúteo')) return 'glutes';
+  if(first.includes('isquiotibiales')) return 'hamstrings';
+  if(first.includes('piernas')) return 'quads';
+  if(first.includes('pantorrilla')) return 'calves';
+  if(first.includes('core')) return 'abs';
+  return 'abs';
+}
+function muscleMapSvg(muscleLabel, color){
+  const key = primaryMuscleKey(muscleLabel);
+  const highlight = REGION_SVG[key] ? REGION_SVG[key](color) : '';
+  return `<svg viewBox="0 0 120 205" preserveAspectRatio="xMidYMid meet">${BODY_BASE_SVG}${highlight}</svg>`;
+}
+
+function poseFrame(p1,p2,color,exName,muscleLabel){
   const vid = EX_VIDEO_ID[exName];
-  const fallbackSvg = combinedPoseSvg(p1,p2,color);
+  const movementSvg = combinedPoseSvg(p1,p2,color);
+  const muscleSvg = muscleMapSvg(muscleLabel, color);
   const legend = `<div class="pose-legend">
       <span><i style="background:#A79E8C;border-top:2px dashed #A79E8C;height:0;"></i>Inicio</span>
       <span><i style="background:${color}"></i>Fin</span>
     </div>`;
-  if(!vid){
-    return `<div class="pose-frame">${fallbackSvg}${legend}<div class="diagram-tag">Diagrama</div></div>`;
-  }
-  // Both the real thumbnail AND the fallback diagram are rendered up front (fallback
-  // just stays hidden). If the thumbnail fails to load, onerror only has to flip two
-  // simple CSS classes — no HTML strings get built or injected at error time, which
-  // is what caused the earlier "unexpected end of input" crash.
-  return `<div class="pose-frame">
-    <div class="real-thumb-link video-trigger" data-vid="${vid}" data-title="${exName}">
-      <img class="real-thumb" src="${thumbUrl(vid)}" alt="${exName}" loading="lazy" onerror="poseImgFailed(this)">
-      <div class="play-badge">▶</div>
-      <div class="photo-tag">📹 Ver video real</div>
-    </div>
-    <div class="fallback-diagram" style="display:none;">${fallbackSvg}${legend}<div class="diagram-tag">Diagrama</div></div>
+  const caption = muscleLabel.split('/')[0].trim();
+  const videoBtn = vid ? `<button class="mini-video-btn video-trigger" data-vid="${vid}" data-title="${exName}">▶ Video real</button>` : '';
+  return `<div class="pose-frame split">
+    <div class="pose-half muscle-half">${muscleSvg}<div class="pose-caption">Trabaja: ${caption}</div></div>
+    <div class="pose-half move-half">${movementSvg}${legend}</div>
+    ${videoBtn}
   </div>`;
 }
 function poseImgFailed(img){
@@ -559,58 +608,149 @@ const WARMUP = {
   ]
 };
 
-const DAYS = [
-  { id:0, key:'lun', label:'Lunes', short:'L', type:'gym',
-    title:'Día 1 — Pecho (en casa, sin pesas)', tag:'Ciclo semanal: pecho hoy, mañana espalda',
-    exercises:[
-      ex('Flexiones estándar','Pecho / Tríceps','4 × 12-15','Cuerpo recto, baja el pecho cerca del piso.','pushupUp','pushupDown','Cuando completes las 4 series con 15 reps limpias, pasa a flexiones declinadas.'),
-      ex('Flexiones declinadas','Pecho superior','3 × 10-12','Pies sobre una silla, baja controlado hasta sentir estiramiento.','pushupUp','pushupDown','Sube la altura de los pies (silla → cama) cuando llegues a 12 reps fácil.'),
-      ex('Flexiones amplias','Pecho externo','3 × 12-15','Manos más separadas que los hombros, baja con control.','pushupUp','pushupDown','Agrega una pausa de 2 seg abajo cuando 15 reps se sientan livianas.'),
-      ex('Flexiones diamante','Pecho interno / Tríceps','3 × 8-12','Manos juntas formando un diamante bajo el pecho, codos cerca del cuerpo.','pushupUp','pushupDown','Progresa a fondos en silla cuando domines 12 reps limpias.'),
-      ex('Fondos en silla','Pecho bajo / Tríceps','3 × 10-15','Manos en el borde de la silla, baja hasta 90° en el codo.','pushupUp','pushupDown','Estira las piernas (en vez de doblarlas) para aumentar la dificultad.'),
-      ex('Plancha con toque de hombro','Core / Estabilidad','3 × 20 toques','Cadera estable, evita rotar el torso.','shoulderTapPlank','shoulderTap','Ralentiza el tempo (2 seg por toque) cuando se sienta fácil.')
-    ]},
-  { id:1, key:'mar', label:'Martes', short:'M', type:'gym',
-    title:'Día 2 — Espalda (en casa, sin pesas)', tag:'Ciclo semanal: espalda hoy, mañana piernas',
-    exercises:[
-      ex('Dominadas (o remo invertido si no hay barra)','Espalda / Bíceps','4 × 6-10','Tira con los codos hacia abajo, pecho hacia la barra.','pullTop','pullBottom','Suma 1 repetición por semana; cuando llegues a 10 limpias, agrega una serie más.'),
-      ex('Remo invertido con mesa','Espalda','3 × 10-15','Cuerpo recto bajo el borde de una mesa firme, tira el pecho hacia arriba.','rowStart','rowEnd','Estira más las piernas o eleva los pies para aumentar la dificultad.'),
-      ex('Superman','Espalda baja','3 × 12-15','Extiende brazos y piernas a la vez, aprieta glúteos y espalda arriba.','hingeBottom','hingeTop','Añade una pausa de 3 seg en la posición alta cuando se sienta fácil.'),
-      ex('Buenos días (sin peso)','Isquiotibiales / Espalda baja','3 × 15','Manos detrás de la cabeza, cadera atrás con espalda plana.','hingeTop','hingeBottom','Ralentiza la bajada a 3 segundos para aumentar el trabajo muscular.'),
-      ex('Bird dog (perro de caza)','Core / Espalda','3 × 10 c/lado','Extiende brazo y pierna opuestos manteniendo la cadera nivelada.','plank','shoulderTap','Añade una pausa de 2 seg en la extensión completa.'),
-      ex('Puente de glúteo','Glúteo / Espalda baja','3 × 20','Empuja con los talones, aprieta el glúteo arriba sin arquear de más.','thrustDown','thrustUp','Progresa a puente a una pierna cuando domines 20 reps limpias.')
-    ]},
-  { id:2, key:'mie', label:'Miércoles', short:'X', type:'gym',
-    title:'Día 3 — Piernas (en casa, sin pesas)', tag:'Ciclo semanal: piernas hoy, mañana hombros',
-    exercises:[
-      ex('Sentadillas','Piernas / Glúteo','4 × 20-25','Pecho arriba, rodillas siguen la punta del pie, baja hasta paralelo.','stand','squatDown','Cuando 25 reps se sientan fáciles, pasa a sentadilla con salto.'),
-      ex('RDL a una pierna (sin peso)','Isquiotibiales / Equilibrio','3 × 10-12 c/pierna','Pierna de apoyo con ligera flexión, cadera atrás, brazos como contrapeso.','hingeTop','hingeBottom','Sostén algo con peso en casa (mochila con libros) cuando domines la técnica.'),
-      ex('Zancadas','Piernas','3 × 15 c/pierna','Rodilla trasera casi toca el piso, torso erguido.','stand','lungeFront','Pasa a zancadas caminando o búlgaras cuando 15 reps sean fáciles.'),
-      ex('Sentadilla búlgara','Piernas','3 × 12 c/pierna','Pie trasero elevado en una silla, baja recto hacia abajo.','stand','lungeFront','Ralentiza la bajada a 3 segundos para más tensión muscular.'),
-      ex('Sentadilla con salto','Piernas / Potencia','3 × 15','Aterriza suave flexionando rodillas, cadena continua.','squatDown','jump','Aumenta la altura del salto conforme ganes fuerza.'),
-      ex('Elevación de talones','Pantorrilla','3 × 20-25','Sube lo más alto posible, baja lento y controlado.','calfDown','calfUp','Hazlo a una pierna cuando 25 reps con las dos piernas sean fáciles.')
-    ]},
-  { id:3, key:'jue', label:'Jueves', short:'J', type:'gym',
-    title:'Día 4 — Hombros (en casa, sin pesas)', tag:'Ciclo semanal: hombros hoy, mañana abdomen y brazos',
-    exercises:[
-      ex('Flexiones pike','Hombro / Tríceps','4 × 8-12','Cadera arriba en V invertida, baja la cabeza hacia el piso entre las manos.','overheadDown','overheadUp','Cuando domines 12 reps limpias, eleva los pies sobre una silla.'),
-      ex('Flexiones pike elevadas','Hombro (avanzado)','3 × 8-10','Pies sobre una silla, cadera alta, baja controlado.','overheadDown','overheadUp','Progresión hacia la flexión en pino cuando esto se sienta cómodo.'),
-      ex('Flexiones arqueras','Hombro / Pecho unilateral','3 × 6-8 c/lado','Un brazo se dobla mientras el otro queda extendido al lado.','pushupUp','pushupDown','Reduce el apoyo del brazo extendido conforme ganes fuerza.'),
-      ex('Pájaros (elevación posterior)','Hombro posterior','3 × 15-20','Torso inclinado al frente, abre los brazos apretando entre escápulas.','hingeBottom','rowEnd','Sostén 2 segundos en la posición abierta cuando se sienta fácil.'),
-      ex('Plancha con toque de hombro','Core / Hombro','3 × 20 toques','Cadera estable, evita rotar el torso.','shoulderTapPlank','shoulderTap','Hazlo más lento (2 seg por toque) para aumentar la dificultad.'),
-      ex('Plancha','Core','3 × 45-60 seg','Mantén la respiración, evita que la cadera caiga.','plank','plank','Progresa a plancha con elevación de pierna cuando pases de 60 seg.')
-    ]},
-  { id:4, key:'vie', label:'Viernes', short:'V', type:'gym',
-    title:'Día 5 — Abdomen y Brazos (en casa, sin pesas)', tag:'Ciclo semanal: cierra la semana — el lunes vuelve a pecho',
-    exercises:[
-      ex('Plancha','Core','3 × 45-60 seg','Mantén la respiración, evita que la cadera caiga.','plank','plank','Progresa a plancha con toque de hombro o elevación de pierna.'),
-      ex('Abdominales bicicleta','Core','3 × 20-25','Codo hacia rodilla contraria, controla el movimiento.','plank','shoulderTap','Ralentiza el tempo cuando 25 reps se sientan fáciles.'),
-      ex('Elevación de piernas','Core inferior','3 × 15-20','Baja las piernas con control, sin arquear la espalda baja.','hingeTop','plank','Añade una pausa de 2 seg abajo, sin tocar el piso.'),
-      ex('Plancha lateral','Core','3 × 30-40 seg c/lado','Cadera alta, cuerpo en línea recta.','sidePlank','sidePlank','Añade una elevación de pierna cuando pases de 40 seg.'),
-      ex('Fondos en silla','Tríceps','3 × 12-15','Manos en el borde de la silla, baja hasta 90° en el codo.','pushupUp','pushupDown','Estira las piernas para aumentar la dificultad.'),
-      ex('Flexiones diamante','Bíceps / Tríceps','3 × 8-12','Manos juntas formando un diamante bajo el pecho.','pushupUp','pushupDown','Ralentiza la bajada a 3 segundos cuando domines 12 reps.')
-    ]}
+const WEEKDAY_NAMES=['Lunes','Martes','Miércoles','Jueves','Viernes'];
+const WEEKDAY_SHORT=['L','M','X','J','V'];
+const GYM_PLAN = [
+ /* ===== SEMANA 1 — técnica y base ===== */
+ {title:'Día 1 — Pecho y tríceps', tag:'Semana 1 · técnica y base',
+  exercises:[
+   ex('Flexiones estándar','Pecho / Tríceps','4 × 10-15','Cuerpo recto, baja el pecho cerca del piso.','pushupUp','pushupDown','Cuando completes 4 series de 15 limpias, pasa a declinadas.'),
+   ex('Flexiones amplias','Pecho externo','3 × 10-12','Manos más separadas que los hombros, baja con control.','pushupUp','pushupDown','Pausa de 2 seg abajo cuando se sientan livianas.'),
+   ex('Flexiones diamante','Pecho interno / Tríceps','3 × 8-10','Manos juntas formando un diamante, codos cerca del cuerpo.','pushupUp','pushupDown','Baja en 3 segundos para más tensión.'),
+   ex('Flexiones declinadas','Pecho superior','3 × 8-12','Pies sobre una silla, baja controlado.','pushupUp','pushupDown','Sube la altura de los pies cuando llegues a 12 fáciles.'),
+   ex('Fondos en silla','Tríceps / Pecho bajo','3 × 10-15','Manos en el borde de la silla, baja hasta 90° en el codo.','pushupUp','pushupDown','Estira las piernas para hacerlo más difícil.'),
+   ex('Flexión isométrica a medio recorrido','Pecho / Tríceps','3 × 20 seg','Baja a la mitad del recorrido y sostén sin moverte, cuerpo recto.','pushupUp','pushupDown','Aumenta 5 segundos cada semana.')
+  ]},
+ {title:'Día 2 — Espalda y bíceps', tag:'Semana 1 · técnica y base',
+  exercises:[
+   ex('Remo invertido con mesa','Espalda / Bíceps','4 × 8-12','Cuerpo recto bajo el borde de una mesa firme, tira el pecho hacia arriba.','rowStart','rowEnd','Eleva los pies para aumentar la dificultad.'),
+   ex('Superman','Espalda baja','3 × 12-15','Extiende brazos y piernas a la vez, aprieta glúteos y espalda.','hingeBottom','hingeTop','Pausa de 3 seg arriba cuando sea fácil.'),
+   ex('Y-T-W en el piso','Espalda / Hombro posterior','3 × 8 c/letra','Boca abajo, forma Y, T y W con los brazos juntando escápulas.','hingeBottom','rowEnd','Sostén 2 seg en cada letra.'),
+   ex('Buenos días (sin peso)','Isquiotibiales / Espalda baja','3 × 15','Manos tras la cabeza, cadera atrás con espalda plana.','hingeTop','hingeBottom','Baja en 3 segundos.'),
+   ex('Bird dog (perro de caza)','Core / Espalda','3 × 10 c/lado','Extiende brazo y pierna opuestos con la cadera nivelada.','plank','shoulderTap','Pausa de 2 seg en la extensión.'),
+   ex('Curl isométrico con toalla','Bíceps','3 × 20 seg','Sentado, pisa una toalla y tira hacia arriba con ambas manos resistiendo con la pierna.','curlDown','curlUp','Aumenta la tensión poco a poco.')
+  ]},
+ {title:'Día 3 — Piernas y glúteo', tag:'Semana 1 · técnica y base',
+  exercises:[
+   ex('Sentadillas','Piernas / Glúteo','4 × 15-20','Pecho arriba, rodillas siguen la punta del pie, baja hasta paralelo.','stand','squatDown','Pasa a sentadilla con salto cuando 25 sean fáciles.'),
+   ex('Silla invisible (pared)','Piernas / Isométrico','3 × 30-40 seg','Espalda en la pared, muslos paralelos al piso, sin apoyar las manos.','stand','squatDown','Suma 10 segundos por semana.'),
+   ex('Zancadas','Piernas','3 × 12 c/pierna','Rodilla trasera casi toca el piso, torso erguido.','stand','lungeFront','Pasa a zancada caminando.'),
+   ex('RDL a una pierna (sin peso)','Isquiotibiales / Equilibrio','3 × 10 c/pierna','Cadera atrás, brazos como contrapeso.','hingeTop','hingeBottom','Sostén una mochila con libros.'),
+   ex('Puente de glúteo isométrico','Glúteo','3 × 30 seg','Sube la cadera y sostén apretando el glúteo, sin arquear de más.','thrustDown','thrustUp','Pasa a una pierna cuando domines 40 seg.'),
+   ex('Elevación de talones','Pantorrilla','3 × 20','Sube lo más alto posible, baja lento.','calfDown','calfUp','Hazlo a una pierna cuando sea fácil.')
+  ]},
+ {title:'Día 4 — Hombros', tag:'Semana 1 · técnica y base',
+  exercises:[
+   ex('Flexiones pike','Hombro / Tríceps','4 × 8-12','Cadera arriba en V invertida, baja la cabeza entre las manos.','overheadDown','overheadUp','Eleva los pies sobre una silla cuando domines 12.'),
+   ex('Pájaros (elevación posterior)','Hombro posterior','3 × 15','Torso inclinado, abre los brazos apretando entre escápulas.','hingeBottom','rowEnd','Sostén 2 seg abierto.'),
+   ex('Plancha con toque de hombro','Hombro / Core','3 × 20 toques','Cadera estable, evita rotar el torso.','shoulderTapPlank','shoulderTap','Hazlo más lento.'),
+   ex('Gateo del oso','Hombro / Core','3 × 30 seg','En cuatro apoyos con rodillas flotando, avanza y retrocede con control.','plank','shoulderTap','Aumenta a 40 seg.'),
+   ex('Plancha','Core / Hombro','3 × 45 seg','Mantén la respiración, evita que la cadera caiga.','plank','plank','Llega a 60 seg y pasa a plancha con elevación de pierna.'),
+   ex('Círculos de brazos','Hombro / Movilidad','2 × 30 seg','Brazos extendidos, círculos amplios adelante y atrás.','overheadDown','overheadUp','')
+  ]},
+ {title:'Día 5 — Abdomen y suelo pélvico', tag:'Semana 1 · técnica y base',
+  exercises:[
+   ex('Elevación de piernas en pared','Core inferior / Suelo pélvico','3 × 12','Acostado con las piernas hacia la pared, baja con control sin arquear la espalda.','hingeTop','plank','Pausa de 2 seg abajo.'),
+   ex('Tijeras verticales en pared','Core inferior / Suelo pélvico','3 × 20 seg','Piernas arriba, abre y cierra como tijera con control.','hingeTop','plank','Aumenta la amplitud.'),
+   ex('Abdominales bicicleta','Core','3 × 20','Codo hacia rodilla contraria, controla el movimiento.','plank','shoulderTap','Ralentiza el tempo.'),
+   ex('Plancha lateral','Core','3 × 30 seg c/lado','Cadera alta, cuerpo en línea recta.','sidePlank','sidePlank','Añade elevación de pierna.'),
+   ex('Dead bug','Core / Abdomen profundo','3 × 10 c/lado','Espalda pegada al piso, baja brazo y pierna contrarios lentamente.','plank','shoulderTap','Hazlo en 4 segundos por repetición.'),
+   ex('Plancha','Core','3 × 45-60 seg','Respira, no dejes caer la cadera.','plank','plank','Pasa a plancha con toque de hombro.')
+  ]},
+ /* ===== SEMANA 2 — volumen y variantes ===== */
+ {title:'Día 6 — Reto de flexiones', tag:'Semana 2 · volumen y variantes',
+  exercises:[
+   ex('Flexiones estándar','Pecho / Tríceps','3 × 12-15','Cuerpo recto, baja el pecho cerca del piso.','pushupUp','pushupDown','Sube 2 reps respecto a la semana 1.'),
+   ex('Flexiones diamante','Pecho interno / Tríceps','3 × 10-12','Manos juntas formando un diamante.','pushupUp','pushupDown','Baja en 3 segundos.'),
+   ex('Flexiones arqueras','Pecho unilateral / Hombro','3 × 6-8 c/lado','Un brazo se dobla mientras el otro queda extendido.','pushupUp','pushupDown','Apoya menos el brazo extendido.'),
+   ex('Flexiones rusas','Pecho / Hombro / Tríceps','3 × 6-8','Baja el pecho y deslízalo hacia adelante extendiendo los brazos, como en el reto.','pushupUp','pushupDown','Más rango cada semana.'),
+   ex('Flexiones Mike Tyson','Pecho / Hombro','3 × 6','Baja el pecho en arco, con el torso viajando hacia adelante, y regresa con control.','pushupUp','pushupDown','Más lento y con más rango.'),
+   ex('Flexiones con pulsaciones','Pecho / Tríceps','3 × 10 pulsos','Baja a medio recorrido y haz pulsos cortos sin subir del todo.','pushupUp','pushupDown','Aumenta pulsos.')
+  ]},
+ {title:'Día 7 — Espalda y bíceps (volumen)', tag:'Semana 2 · volumen y variantes',
+  exercises:[
+   ex('Remo invertido agarre cerrado','Espalda / Bíceps','4 × 8-12','Manos juntas bajo la mesa, codos pegados al cuerpo.','rowStart','rowEnd','Eleva los pies.'),
+   ex('Remo invertido con mesa','Espalda','3 × 10-12','Cuerpo recto, tira el pecho hacia arriba.','rowStart','rowEnd','Pausa 2 seg arriba.'),
+   ex('Superman','Espalda baja','3 × 15','Extiende brazos y piernas a la vez.','hingeBottom','hingeTop','Pausa de 3 seg arriba.'),
+   ex('Y-T-W en el piso','Espalda / Hombro posterior','3 × 10 c/letra','Forma Y, T y W juntando escápulas.','hingeBottom','rowEnd','Sostén 3 seg.'),
+   ex('Curl isométrico con toalla','Bíceps','3 × 25 seg','Tira hacia arriba con ambas manos resistiendo con la pierna.','curlDown','curlUp','Más tensión.'),
+   ex('Bird dog (perro de caza)','Core / Espalda','3 × 12 c/lado','Extiende brazo y pierna opuestos.','plank','shoulderTap','Pausa de 3 seg.')
+  ]},
+ {title:'Día 8 — Piernas y glúteo (volumen)', tag:'Semana 2 · volumen y variantes',
+  exercises:[
+   ex('Sentadilla búlgara','Piernas / Glúteo','4 × 10-12 c/pierna','Pie trasero en una silla, baja recto hacia abajo.','stand','lungeFront','Baja en 3 segundos.'),
+   ex('Sentadillas','Piernas','3 × 20-25','Pecho arriba, baja hasta paralelo.','stand','squatDown','Pasa a sentadilla con salto.'),
+   ex('Zancada caminando','Piernas / Glúteo','3 × 12 c/pierna','Da pasos largos hacia adelante, rodilla trasera casi al piso.','stand','walkLunge','Más pasos.'),
+   ex('Puente de glúteo a una pierna','Glúteo / Isquiotibiales','3 × 12 c/pierna','Una pierna extendida, empuja con el talón de la otra.','thrustDown','thrustUp','Pausa 2 seg arriba.'),
+   ex('Silla invisible (pared)','Piernas / Isométrico','3 × 45 seg','Muslos paralelos al piso, espalda en la pared.','stand','squatDown','Más tiempo.'),
+   ex('Elevación de talones a una pierna','Pantorrilla','3 × 12 c/pierna','Sube lo más alto, baja lento sobre una sola pierna.','calfDown','calfUp','Pausa arriba.')
+  ]},
+ {title:'Día 9 — Circuito quemagrasa', tag:'Semana 2 · volumen y variantes',
+  exercises:[
+   ex('Rodillas altas','Piernas / Cardio','4 × 30 seg','En el lugar, sube las rodillas a la altura de la cadera con ritmo.','stand','jump','Más rápido cada semana.'),
+   ex('Sentadilla profunda con pulsos','Piernas / Glúteo','4 × 30 seg','Baja profundo y haz pulsos cortos abajo.','stand','squatDown','Más pulsos.'),
+   ex('Flexiones con pulsaciones','Pecho / Hombro','4 × 30 seg','Pulsos cortos en el fondo de la flexión.','pushupUp','pushupDown','Sube el tiempo.'),
+   ex('Gateo del oso','Hombro / Core','4 × 30 seg','Avanza y retrocede con rodillas flotando.','plank','shoulderTap','Más tiempo.'),
+   ex('Salto de tijera','Piernas / Cardio','4 × 40 seg','Salta abriendo piernas y subiendo brazos.','jjClosed','jjOpen','Más rápido.'),
+   ex('Escaladores','Core / Cardio','4 × 30 seg','En plancha alta, lleva las rodillas al pecho alternando.','plank','shoulderTap','Más velocidad.')
+  ]},
+ {title:'Día 10 — Isométricos de cuerpo completo', tag:'Semana 2 · volumen y variantes',
+  exercises:[
+   ex('Silla invisible (pared)','Piernas / Isométrico','3 × 45-60 seg','Muslos paralelos al piso, sin apoyar las manos.','stand','squatDown','Sube 10 seg por semana.'),
+   ex('Flexión isométrica a medio recorrido','Pecho / Tríceps','3 × 25 seg','Sostén a medio recorrido, cuerpo recto.','pushupUp','pushupDown','Sube 5 seg.'),
+   ex('Puente de glúteo isométrico','Glúteo','3 × 40 seg','Sostén arriba apretando el glúteo.','thrustDown','thrustUp','Pasa a una pierna.'),
+   ex('Plancha hueca (hollow hold)','Core','3 × 20-30 seg','Boca arriba, espalda baja pegada al piso, brazos y piernas elevados.','hingeTop','plank','Estira más los brazos.'),
+   ex('Plancha lateral','Core','3 × 35 seg c/lado','Cadera alta, cuerpo en línea recta.','sidePlank','sidePlank','Suma 5 seg.'),
+   ex('Plancha','Core','3 × 60 seg','No dejes caer la cadera.','plank','plank','Plancha con elevación de pierna.')
+  ]},
+ /* ===== SEMANA 3 — intensidad ===== */
+ {title:'Día 11 — Pecho y tríceps (intensidad)', tag:'Semana 3 · intensidad',
+  exercises:[
+   ex('Flexiones declinadas','Pecho superior','4 × 10-12','Pies sobre una silla, baja controlado.','pushupUp','pushupDown','Sube los pies más alto.'),
+   ex('Flexiones arqueras','Pecho unilateral / Hombro','4 × 8 c/lado','Un brazo se dobla, el otro se extiende.','pushupUp','pushupDown','Menos apoyo del brazo extendido.'),
+   ex('Flexiones diamante','Pecho interno / Tríceps','3 × 12-15','Manos juntas bajo el pecho.','pushupUp','pushupDown','Baja en 3 segundos.'),
+   ex('Flexiones Mike Tyson','Pecho / Hombro','3 × 8','Baja en arco y regresa con control.','pushupUp','pushupDown','Más rango.'),
+   ex('Fondos en silla','Tríceps','3 × 15','Baja hasta 90° en el codo.','pushupUp','pushupDown','Estira las piernas.'),
+   ex('Flexión isométrica a medio recorrido','Pecho / Tríceps','3 × 30 seg','Sostén a medio recorrido.','pushupUp','pushupDown','Sube 5 seg.')
+  ]},
+ {title:'Día 12 — Espalda y bíceps (intensidad)', tag:'Semana 3 · intensidad',
+  exercises:[
+   ex('Remo invertido con mesa','Espalda / Bíceps','4 × 12-15','Pies elevados en una silla para más dificultad.','rowStart','rowEnd','Pausa 2 seg arriba.'),
+   ex('Remo invertido agarre cerrado','Espalda / Bíceps','3 × 10-12','Codos pegados al cuerpo.','rowStart','rowEnd','Baja en 3 segundos.'),
+   ex('Superman','Espalda baja','3 × 15','Pausa de 3 segundos arriba.','hingeBottom','hingeTop','Más pausa.'),
+   ex('Y-T-W en el piso','Espalda / Hombro posterior','3 × 12 c/letra','Forma Y, T y W.','hingeBottom','rowEnd','Sostén 3 seg.'),
+   ex('Curl isométrico con toalla','Bíceps','3 × 30 seg','Tira hacia arriba resistiendo con la pierna.','curlDown','curlUp','Más tensión.'),
+   ex('Buenos días (sin peso)','Isquiotibiales / Espalda baja','3 × 20','Cadera atrás con espalda plana.','hingeTop','hingeBottom','Baja en 3 segundos.')
+  ]},
+ {title:'Día 13 — Piernas y glúteo (intensidad)', tag:'Semana 3 · intensidad',
+  exercises:[
+   ex('Sentadilla búlgara','Piernas / Glúteo','4 × 12 c/pierna','Baja recto, 3 segundos de bajada.','stand','lungeFront','Más lento.'),
+   ex('Sentadilla con salto','Piernas / Potencia','3 × 15','Aterriza suave flexionando rodillas.','squatDown','jump','Salta más alto.'),
+   ex('Zancada caminando','Piernas / Glúteo','3 × 15 c/pierna','Pasos largos y controlados.','stand','walkLunge','Más pasos.'),
+   ex('Puente de glúteo a una pierna','Glúteo / Isquiotibiales','3 × 15 c/pierna','Empuja con el talón y aprieta arriba.','thrustDown','thrustUp','Pausa 3 seg.'),
+   ex('Silla invisible (pared)','Piernas / Isométrico','3 × 60 seg','Muslos paralelos al piso.','stand','squatDown','Más tiempo.'),
+   ex('Elevación de talones a una pierna','Pantorrilla','3 × 15 c/pierna','Sube alto, baja lento.','calfDown','calfUp','Pausa arriba.')
+  ]},
+ {title:'Día 14 — Hombros y core (intensidad)', tag:'Semana 3 · intensidad',
+  exercises:[
+   ex('Flexiones pike elevadas','Hombro (avanzado)','4 × 8-10','Pies sobre una silla, cadera alta.','overheadDown','overheadUp','Camino hacia la flexión en pino.'),
+   ex('Flexiones pike','Hombro / Tríceps','3 × 12','Baja la cabeza entre las manos.','overheadDown','overheadUp','Más lento.'),
+   ex('Pájaros (elevación posterior)','Hombro posterior','3 × 20','Abre los brazos apretando escápulas.','hingeBottom','rowEnd','Sostén 2 seg.'),
+   ex('Plancha con toque de hombro','Hombro / Core','3 × 24 toques','Cadera estable.','shoulderTapPlank','shoulderTap','Más lento.'),
+   ex('Plancha hueca (hollow hold)','Core','3 × 30 seg','Espalda baja pegada al piso.','hingeTop','plank','Estira más.'),
+   ex('Elevación de piernas en pared','Core inferior / Suelo pélvico','3 × 15','Baja con control, sin arquear la espalda.','hingeTop','plank','Pausa 2 seg abajo.')
+  ]},
+ {title:'Día 15 — Cuerpo completo y prueba final', tag:'Semana 3 · cierre del ciclo',
+  exercises:[
+   ex('Flexiones estándar','Pecho / Tríceps','3 × máximo','Haz el máximo de repeticiones limpias en cada serie y anótalas.','pushupUp','pushupDown','Compara con tu Día 1.'),
+   ex('Sentadillas','Piernas / Glúteo','3 × 30','Pecho arriba, baja hasta paralelo.','stand','squatDown','Compara con tu Día 3.'),
+   ex('Remo invertido con mesa','Espalda / Bíceps','3 × máximo','Máximo de repeticiones limpias.','rowStart','rowEnd','Compara con tu Día 2.'),
+   ex('Flexiones pike','Hombro / Tríceps','3 × máximo','Máximo de repeticiones limpias.','overheadDown','overheadUp','Compara con tu Día 4.'),
+   ex('Escaladores','Core / Cardio','3 × 40 seg','Rodillas al pecho alternando, cadera baja.','plank','shoulderTap','Más velocidad.'),
+   ex('Plancha','Core','2 × máximo','Aguanta lo máximo posible con buena postura.','plank','plank','Anota tu tiempo y repite el ciclo con más reps.')
+  ]}
 ];
+const DAYS = GYM_PLAN.map((p,i)=>({ id:i, key:'d'+(i+1), label:`Sem ${Math.floor(i/5)+1} · ${WEEKDAY_NAMES[i%5]}`, short:WEEKDAY_SHORT[i%5], type:'gym', title:p.title, tag:p.tag, exercises:p.exercises }));
 
 const RUN_PLANS = {
   sab:{ label:'Sábado', title:'Carrera continua', tag:'Ritmo moderado, 30–40 min',
@@ -630,6 +770,9 @@ const RUN_PLANS = {
 /* ---------- STATE ---------- */
 let dow = new Date().getDay();
 let activeDayId = dow>=1 && dow<=5 ? dow-1 : (dow===6?'sab':'dom');
+// 3-week cycle: weeks since a fixed Monday, mod 3
+let activeWeek = Math.floor((Date.now()-new Date(1970,0,5).getTime())/(7*86400000))%3;
+function gymIdx(){ return activeWeek*5 + activeDayId; }
 let setState = {};
 let guidedActive = false;
 let guidedSteps = [];   // array of {type:'warmup'} | {type:'ex', idx:n}
@@ -838,6 +981,11 @@ const dayDefs = [
   {id:'sab',short:'S',type:'run'},{id:'dom',short:'D',type:'run'}
 ];
 function renderRack(){
+  let wt=document.getElementById('weekTabs');
+  if(!wt){ wt=document.createElement('div'); wt.id='weekTabs'; wt.style.cssText='display:flex;gap:8px;padding:12px 18px 0;';
+    rack.parentNode.insertBefore(wt,rack); }
+  wt.innerHTML=[0,1,2].map(w=>`<button data-w="${w}" style="flex:1;padding:8px 0;border-radius:8px;border:1px solid ${w===activeWeek?'var(--gym)':'#3a3833'};background:${w===activeWeek?'var(--gym)':'transparent'};color:${w===activeWeek?'#fff':'var(--chalk, #ddd)'};font:600 12px Inter,sans-serif;">Semana ${w+1}</button>`).join('');
+  wt.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{ activeWeek=parseInt(b.dataset.w); stopEverything(); renderRack(); renderDay(); }));
   rack.innerHTML = dayDefs.map(d=>{
     const active = d.id===activeDayId ? 'active':'';
     const kIcon = d.type==='gym' ? 'GYM' : 'RUN';
@@ -883,7 +1031,7 @@ function renderDay(){
   gymList.style.display='flex';
   runView.style.display='none';
   clkTag.textContent = 'Sesión de gimnasio';
-  const d = DAYS[activeDayId];
+  const d = DAYS[gymIdx()];
   dayLabel.textContent = d.label;
   dayTitle.textContent = d.title;
   dayTag.textContent = d.tag;
@@ -896,8 +1044,8 @@ function renderDay(){
       <div class="prog-card-head">📈 Cómo ganar músculo sin pesas</div>
       <p class="prog-card-text">Sin pesas, el crecimiento viene de aumentar la dificultad progresivamente:</p>
       <ol class="prog-card-list">
-        <li><b>Semana 1-2:</b> aprende la técnica en el rango bajo de repeticiones de cada ejercicio.</li>
-        <li><b>Semana 3-4:</b> suma 1-2 repeticiones por semana hasta llegar al tope del rango.</li>
+        <li><b>Plan de 15 días (3 semanas):</b> semana 1 técnica y base, semana 2 volumen y variantes, semana 3 intensidad. Al terminar el Día 15 repite el ciclo con más repeticiones.</li>
+        <li><b>Cada ciclo:</b> suma 1-2 repeticiones por serie hasta llegar al tope del rango.</li>
         <li><b>Cuando domines el tope:</b> pasa a la variante más difícil que indica cada ejercicio (📈), y vuelve a empezar en el rango bajo con esa variante.</li>
         <li><b>Extra:</b> bajar más lento (2-3 segundos) o pausar en la posición más difícil aumenta el trabajo muscular sin necesitar más repeticiones.</li>
       </ol>
@@ -937,7 +1085,7 @@ function renderDay(){
       dots += `<div class="set-dot ${done}" data-k="${k}">${s+1}</div>`;
     }
     return `<div class="card" id="exCard-${i}">
-      ${poseFrame(e.p1,e.p2,GYM_COLOR,e.name)}
+      ${poseFrame(e.p1,e.p2,GYM_COLOR,e.name,e.muscle)}
       <div class="card-body">
         <p class="ex-name">${e.name}</p>
         <p class="ex-muscle">${e.muscle}</p>
@@ -972,6 +1120,32 @@ function renderDay(){
 
 /* ---------- VOICE INSTRUCTIONS — spoken, plain-language execution cues ---------- */
 const VOICE_INSTRUCTIONS = {
+  'Flexión isométrica a medio recorrido':'Baja el pecho hasta la mitad del recorrido y sostén esa posición sin moverte, con el cuerpo recto.',
+  'Flexiones arqueras':'Separa mucho las manos, dobla un brazo bajando hacia ese lado mientras el otro queda estirado, y alterna.',
+  'Flexiones rusas':'Baja el pecho y deslízalo hacia adelante extendiendo los brazos, luego regresa arriba con control.',
+  'Flexiones Mike Tyson':'Baja el pecho en un arco, con el torso viajando hacia adelante, y regresa a la posición inicial con control.',
+  'Flexiones con pulsaciones':'Baja a la mitad de la flexión y haz pulsos cortos sin subir del todo.',
+  'Flexiones pike':'Con la cadera arriba en forma de V invertida, baja la cabeza entre las manos y empuja hacia arriba.',
+  'Flexiones pike elevadas':'Con los pies sobre una silla y la cadera alta, baja la cabeza hacia el piso y empuja arriba.',
+  'Y-T-W en el piso':'Acostado boca abajo, levanta los brazos formando una Y, luego una T y luego una W, juntando los omóplatos.',
+  'Curl isométrico con toalla':'Sentado, pisa una toalla con un pie y tira hacia arriba con ambas manos mientras la pierna resiste.',
+  'Silla invisible (pared)':'Apoya la espalda en la pared y baja hasta que los muslos queden paralelos al piso. Mantén la posición.',
+  'Puente de glúteo isométrico':'Acostado boca arriba, sube la cadera y mantén la posición apretando los glúteos.',
+  'Puente de glúteo a una pierna':'Con una pierna estirada, empuja con el talón de la otra y sube la cadera, aprieta arriba.',
+  'Elevación de talones a una pierna':'Sobre una sola pierna, sube lo más alto que puedas y baja lento.',
+  'Zancada caminando':'Da pasos largos hacia adelante, bajando la rodilla trasera casi hasta el piso en cada paso.',
+  'Gateo del oso':'Apoya manos y pies con las rodillas flotando, y avanza y retrocede con pasos cortos.',
+  'Elevación de piernas en pared':'Acostado con las piernas hacia la pared, baja las piernas con control sin arquear la espalda baja.',
+  'Tijeras verticales en pared':'Con las piernas arriba, ábrelas y ciérralas como una tijera, con control.',
+  'Dead bug':'Boca arriba con rodillas y brazos arriba, baja un brazo y la pierna contraria sin despegar la espalda del piso.',
+  'Plancha hueca (hollow hold)':'Boca arriba, pega la espalda baja al piso y eleva brazos y piernas manteniendo el abdomen firme.',
+  'Rodillas altas':'En el lugar, sube las rodillas hasta la altura de la cadera a buen ritmo.',
+  'Sentadilla profunda con pulsos':'Baja profundo y haz pulsos cortos abajo sin subir del todo.',
+  'Escaladores':'En posición de plancha alta, lleva las rodillas hacia el pecho alternando rápidamente.',
+  'Remo invertido agarre cerrado':'Bajo una mesa firme, agarra con las manos juntas y tira el pecho hacia arriba con los codos pegados.',
+  'Plancha':'Apoya antebrazos y puntas de los pies, cuerpo recto y abdomen firme, y mantén la posición.',
+  'Plancha lateral':'De lado, apoyado en el antebrazo, eleva la cadera y mantén el cuerpo en línea recta.',
+  'Abdominales bicicleta':'Boca arriba, lleva el codo hacia la rodilla contraria alternando, con control.',
   'Salto de tijera':'Salta abriendo las piernas mientras subes los brazos hacia arriba, y vuelve a la posición inicial.',
   'Círculos de brazos':'Extiende los brazos a los lados y haz círculos amplios, hacia adelante y luego hacia atrás.',
   'Sentadilla sin peso':'Baja como si te fueras a sentar, con el pecho arriba y las rodillas siguiendo la punta de tus pies.',
@@ -1056,7 +1230,7 @@ function highlightExerciseCard(idx){
   if(card){ card.classList.add('current'); card.scrollIntoView({behavior:'smooth', block:'center'}); }
 }
 function markSetDoneAuto(exIdx, setIdx){
-  const d = DAYS[activeDayId];
+  const d = DAYS[gymIdx()];
   const k = `${d.id}-${exIdx}-${setIdx}`;
   setState[k] = true;
   const dot = document.querySelector(`.set-dot[data-k="${k}"]`);
@@ -1069,7 +1243,7 @@ function updateAutoUI(stepLabelText, nameText, timeLeft){
   gCountdownEl.textContent = timeLeft>=60 ? `${m}:${String(s).padStart(2,'0')}` : timeLeft;
 }
 function startAutoCoach(){
-  const d = DAYS[activeDayId];
+  const d = DAYS[gymIdx()];
   autoQueue = buildAutoQueue(d);
   autoIdx = -1; autoActive = true; autoPaused = false;
   gPauseBtn.textContent = '⏸';
@@ -1339,12 +1513,6 @@ function setDateLabel(){
   document.getElementById('todayLabel').textContent = `${days[now.getDay()]} ${now.getDate()} ${months[now.getMonth()]}`;
 }
 
-/* ---------- INIT ---------- */
-setDateLabel();
-renderRack();
-updateMusicLinks();
-renderDay();
-initCalendar();
 
 /* ---------- WORKOUT LOG / CALENDAR (persists across sessions) ---------- */
 let workoutLog = {}; // { "YYYY-MM-DD": true }
@@ -1439,15 +1607,15 @@ async function initCalendar(){
   await loadLog();
   refreshStreakPill();
 }
+
+/* ---------- INIT ---------- */
+setDateLabel();
+renderRack();
+updateMusicLinks();
+renderDay();
+initCalendar();
 </script>
 
-<script>
-  if('serviceWorker' in navigator){
-    window.addEventListener('load', ()=>{
-      navigator.serviceWorker.register('service-worker.js').catch(()=>{});
-    });
-  }
-</script>
-
+<script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('service-worker.js').catch(()=>{}));}</script>
 </body>
 </html>
