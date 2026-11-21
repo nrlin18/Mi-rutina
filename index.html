@@ -241,6 +241,12 @@
 
   .footer-note{padding:24px 18px 8px;font-size:11px;color:var(--muted);text-align:center;line-height:1.5;}
   ::-webkit-scrollbar{display:none;}
+  .pose-frame.anatomy{height:200px;background:radial-gradient(ellipse at 50% 40%,#3a382f 0%,#26251f 75%);}
+  .pose-frame.anatomy .pose-caption{position:absolute;left:10px;bottom:10px;background:rgba(20,19,16,.85);padding:5px 10px;border-radius:8px;font:600 11px Oswald,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#F1ECE1;display:flex;align-items:center;gap:6px;}
+  .pose-frame.anatomy .pose-caption .dot{width:9px;height:9px;border-radius:50%;display:inline-block;}
+  .pose-frame.anatomy .anat-legend{position:absolute;left:10px;top:10px;right:auto;bottom:auto;display:flex;gap:10px;font-size:10px;color:#C9C2B1;}
+  .pose-frame.anatomy .anat-legend i{display:inline-block;width:14px;height:3px;margin-right:4px;vertical-align:middle;}
+  .pose-frame.anatomy svg{position:absolute;inset:0;padding-bottom:30px;box-sizing:border-box;}
 </style>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#1F1E1B">
@@ -409,12 +415,82 @@ const POSES = {
   walkLunge:{head:[44,16],shoulder:[44,28],elbowL:[34,38],elbowR:[54,38],hip:[46,56],handL:[30,46],handR:[58,46],kneeL:[28,70],kneeR:[66,64],footL:[24,100],footR:[80,86]},
   jjClosed:{head:[50,14],shoulder:[50,26],elbowL:[42,36],elbowR:[58,36],hip:[50,55],handL:[38,46],handR:[62,46],kneeL:[47,78],kneeR:[53,78],footL:[47,100],footR:[53,100]},
   jjOpen:{head:[50,10],shoulder:[50,22],elbowL:[32,10],elbowR:[68,10],hip:[50,50],handL:[26,0],handR:[74,0],kneeL:[36,72],kneeR:[64,72],footL:[26,98],footR:[74,98]},
-  hipCircle:{head:[50,16],shoulder:[50,28],elbowL:[36,36],elbowR:[64,36],hip:[56,56],handL:[30,44],handR:[70,44],kneeL:[46,78],kneeR:[58,78],footL:[42,100],footR:[58,100]}
+  hipCircle:{head:[50,16],shoulder:[50,28],elbowL:[36,36],elbowR:[64,36],hip:[56,56],handL:[30,44],handR:[70,44],kneeL:[46,78],kneeR:[58,78],footL:[42,100],footR:[58,100]},
+  lyLegsUp:{head:[12,96],shoulder:[24,98],elbowL:[36,100],elbowR:[36,100],hip:[56,98],handL:[48,100],handR:[48,100],kneeL:[56,76],kneeR:[56,76],footL:[56,52],footR:[56,52]},
+  lyLegsDown:{head:[12,96],shoulder:[24,98],elbowL:[36,100],elbowR:[36,100],hip:[56,98],handL:[48,100],handR:[48,100],kneeL:[76,94],kneeR:[76,94],footL:[96,88],footR:[96,88]},
+  lyScissorsA:{head:[12,96],shoulder:[24,98],elbowL:[36,100],elbowR:[36,100],hip:[56,98],handL:[48,100],handR:[48,100],kneeL:[52,76],kneeR:[60,76],footL:[44,52],footR:[68,52]},
+  lyHollow:{head:[22,84],shoulder:[32,90],elbowL:[20,84],elbowR:[20,84],hip:[58,98],handL:[8,78],handR:[8,78],kneeL:[78,92],kneeR:[78,92],footL:[98,84],footR:[98,84]},
+  lyDeadA:{head:[12,96],shoulder:[24,98],elbowL:[24,82],elbowR:[24,82],hip:[56,98],handL:[24,66],handR:[24,66],kneeL:[62,74],kneeR:[62,74],footL:[80,74],footR:[80,74]},
+  lyDeadB:{head:[12,96],shoulder:[24,98],elbowL:[16,92],elbowR:[24,82],hip:[56,98],handL:[6,98],handR:[24,66],kneeL:[62,74],kneeR:[76,92],footL:[80,74],footR:[96,98]},
+  lyBikeA:{head:[14,90],shoulder:[26,94],elbowL:[20,84],elbowR:[20,84],hip:[56,98],handL:[18,76],handR:[18,76],kneeL:[48,76],kneeR:[76,92],footL:[66,70],footR:[98,96]},
+  lyBikeB:{head:[14,90],shoulder:[26,94],elbowL:[20,84],elbowR:[20,84],hip:[56,98],handL:[18,76],handR:[18,76],kneeL:[76,92],kneeR:[48,76],footL:[98,96],footR:[66,70]},
+  proneRest:{head:[14,94],shoulder:[26,96],elbowL:[16,98],elbowR:[16,98],hip:[58,98],handL:[6,98],handR:[6,98],kneeL:[76,98],kneeR:[76,98],footL:[96,98],footR:[96,98]},
+  proneUp:{head:[12,82],shoulder:[26,88],elbowL:[16,80],elbowR:[16,80],hip:[58,96],handL:[6,72],handR:[6,72],kneeL:[78,90],kneeR:[78,90],footL:[98,82],footR:[98,82]},
+  birdA:{head:[18,62],shoulder:[30,66],elbowL:[30,84],elbowR:[30,84],hip:[64,66],handL:[30,102],handR:[30,102],kneeL:[64,102],kneeR:[64,102],footL:[86,102],footR:[86,102]},
+  birdB:{head:[18,58],shoulder:[30,64],elbowL:[30,84],elbowR:[18,58],hip:[64,64],handL:[30,102],handR:[6,52],kneeL:[64,102],kneeR:[82,58],footL:[86,102],footR:[98,50]},
+  wallStand:{head:[30,16],shoulder:[30,28],elbowL:[32,42],elbowR:[32,42],hip:[30,56],handL:[34,54],handR:[34,54],kneeL:[32,78],kneeR:[32,78],footL:[34,100],footR:[34,100]},
+  wallSit:{head:[30,38],shoulder:[30,50],elbowL:[44,58],elbowR:[44,58],hip:[30,74],handL:[56,58],handR:[56,58],kneeL:[62,74],kneeR:[62,74],footL:[62,100],footR:[62,100]}
 };
 
 // One SVG per exercise: dashed silhouette = inicio, solid coloured silhouette = fin,
 // plus an arrow along whichever body point moves the most (auto-detected) so the
 // direction of the movement is always obvious at a glance.
+
+function lerp2(a,b,t){ return [a[0]+(b[0]-a[0])*t, a[1]+(b[1]-a[1])*t]; }
+function taper(a,b,w1,w2,t0,t1){
+  if(t0===undefined){t0=0;t1=1;}
+  const A=lerp2(a,b,t0), B=lerp2(a,b,t1);
+  const W1=w1+(w2-w1)*t0, W2=w1+(w2-w1)*t1;
+  const dx=B[0]-A[0], dy=B[1]-A[1], L=Math.hypot(dx,dy)||1;
+  const nx=-dy/L, ny=dx/L;
+  const pts=[[A[0]+nx*W1/2,A[1]+ny*W1/2],[B[0]+nx*W2/2,B[1]+ny*W2/2],[B[0]-nx*W2/2,B[1]-ny*W2/2],[A[0]-nx*W1/2,A[1]-ny*W1/2]];
+  const f=v=>v.toFixed(1);
+  return `<path d="M${pts.map(q=>f(q[0])+','+f(q[1])).join(' L')} Z"/><circle cx="${f(A[0])}" cy="${f(A[1])}" r="${f(W1/2)}"/><circle cx="${f(B[0])}" cy="${f(B[1])}" r="${f(W2/2)}"/>`;
+}
+function bodyParts(kp){
+  return {
+    legL:[taper(kp.hip,kp.kneeL,12,8.5),taper(kp.kneeL,kp.footL,8.5,5)],
+    armL:[taper(kp.shoulder,kp.elbowL,8.5,6.2),taper(kp.elbowL,kp.handL,6.2,4.2)],
+    torso:[taper(kp.shoulder,kp.hip,15,11.5)],
+    legR:[taper(kp.hip,kp.kneeR,12.5,8.8),taper(kp.kneeR,kp.footR,8.8,5.2)],
+    armR:[taper(kp.shoulder,kp.elbowR,8.8,6.4),taper(kp.elbowR,kp.handR,6.4,4.4)]
+  };
+}
+function muscleRegion(kp,key){
+  const c=(pt,r)=>`<circle cx="${pt[0].toFixed(1)}" cy="${pt[1].toFixed(1)}" r="${r}"/>`;
+  const T=(a,b,w1,w2,t0,t1)=>taper(a,b,w1,w2,t0,t1);
+  switch(key){
+    case 'chest': return T(kp.shoulder,kp.hip,15.6,14,0.02,0.52)+c(kp.shoulder,7);
+    case 'back': return T(kp.shoulder,kp.hip,15.6,14,0.04,0.65)+c(kp.shoulder,6.5);
+    case 'lowerback': return T(kp.shoulder,kp.hip,14,12.5,0.55,1);
+    case 'abs': return T(kp.shoulder,kp.hip,14.2,12.8,0.42,0.98);
+    case 'shoulders': return c(kp.shoulder,9)+T(kp.shoulder,kp.elbowL,9.4,7.6,0,0.6)+T(kp.shoulder,kp.elbowR,9.6,7.8,0,0.6);
+    case 'triceps': case 'biceps': return T(kp.shoulder,kp.elbowL,9.3,7,0.12,1)+T(kp.shoulder,kp.elbowR,9.5,7.2,0.12,1);
+    case 'glutes': return c(kp.hip,10.5)+T(kp.hip,kp.kneeR,13,10.5,0,0.35);
+    case 'quads': case 'hamstrings': return T(kp.hip,kp.kneeL,13,9.2,0.05,0.98)+T(kp.hip,kp.kneeR,13.4,9.6,0.05,0.98);
+    case 'calves': return T(kp.kneeL,kp.footL,9.6,5.8,0.05,0.85)+T(kp.kneeR,kp.footR,9.8,6,0.05,0.85);
+    default: return '';
+  }
+}
+function figureSvg(kp, color, ghost, key){
+  const P=bodyParts(kp);
+  const headR=8.2, h=kp.head;
+  if(ghost){
+    return `<g fill="#A79E8C" opacity="0.2">${P.legL.join('')}${P.armL.join('')}${P.torso.join('')}${P.legR.join('')}${P.armR.join('')}<circle cx="${h[0]}" cy="${h[1]}" r="${headR}"/></g>
+    <g fill="none" stroke="#A79E8C" stroke-width="0.9" stroke-dasharray="2.5 2.5" opacity="0.6">${limbPaths(kp).map(([a,b])=>`<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}"/>`).join('')}<circle cx="${h[0]}" cy="${h[1]}" r="${headR}"/></g>`;
+  }
+  const sh=kp.shoulder;
+  const neck=taper(h,sh,4.2,5.5,0,1);
+  const hi = key ? `<g fill="${color}" stroke="${color}" stroke-width="0.8" stroke-linejoin="round" opacity="0.92">${muscleRegion(kp,key)}</g>` : '';
+  // fine "muscle fibre" lines so the body reads as muscle, not a flat blob
+  const fibres = `<g stroke="#2a2822" stroke-width="0.5" opacity="0.55" fill="none">${[ [kp.hip,kp.kneeR],[kp.shoulder,kp.elbowR],[kp.shoulder,kp.hip] ].map(([a,b])=>{
+    const dx=b[0]-a[0],dy=b[1]-a[1],L=Math.hypot(dx,dy)||1,nx=-dy/L,ny=dx/L;
+    return [-0.22,0.22].map(o=>`<line x1="${(a[0]+nx*o*5).toFixed(1)}" y1="${(a[1]+ny*o*5).toFixed(1)}" x2="${(b[0]+nx*o*3).toFixed(1)}" y2="${(b[1]+ny*o*3).toFixed(1)}"/>`).join('');
+  }).join('')}</g>`;
+  return `<g fill="#4B473B" stroke="#4B473B" stroke-width="0.8" stroke-linejoin="round">${P.legL.join('')}${P.armL.join('')}</g>
+    <g fill="#7A7463" stroke="#7A7463" stroke-width="0.8" stroke-linejoin="round">${neck}${P.torso.join('')}${P.legR.join('')}${P.armR.join('')}<circle cx="${h[0]}" cy="${h[1]}" r="${headR}"/></g>
+    ${fibres}${hi}`;
+}
 function limbPaths(kp){
   return [
     [kp.shoulder,kp.hip],
@@ -424,17 +500,6 @@ function limbPaths(kp){
     [kp.hip,kp.kneeR],[kp.kneeR,kp.footR]
   ];
 }
-function figureSvg(kp, color, dashed){
-  const dash = dashed ? 'stroke-dasharray="4 3.5" opacity="0.55"' : '';
-  const lines = limbPaths(kp).map(([a,b])=>
-    `<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="${color}" stroke-width="4" stroke-linecap="round" ${dash}/>`
-  ).join('');
-  const joints = ['shoulder','elbowL','elbowR','hip','kneeL','kneeR','handL','handR','footL','footR'].map(k=>
-    `<circle cx="${kp[k][0]}" cy="${kp[k][1]}" r="2.6" fill="${color}" ${dashed?'opacity="0.55"':''}/>`
-  ).join('');
-  const head = `<circle cx="${kp.head[0]}" cy="${kp.head[1]}" r="8" fill="none" stroke="${color}" stroke-width="4" ${dash}/>`;
-  return lines+joints+head;
-}
 function biggestMove(kp1,kp2){
   let best=null,bestD=-1;
   ['head','hip','handL','handR'].forEach(k=>{
@@ -443,7 +508,7 @@ function biggestMove(kp1,kp2){
   });
   return {from:kp1[best], to:kp2[best], d:bestD};
 }
-function combinedPoseSvg(p1key, p2key, color){
+function combinedPoseSvg(p1key, p2key, color, key){
   const kp1 = POSES[p1key], kp2 = POSES[p2key];
   const mv = biggestMove(kp1,kp2);
   let arrow = '';
@@ -464,11 +529,11 @@ function combinedPoseSvg(p1key, p2key, color){
       fill="none" stroke="#F1ECE1" stroke-width="2" stroke-dasharray="1 4" stroke-linecap="round"/>
       <polygon points="${ex.toFixed(1)},${ey.toFixed(1)} ${a1x.toFixed(1)},${a1y.toFixed(1)} ${a2x.toFixed(1)},${a2y.toFixed(1)}" fill="#F1ECE1"/>`;
   }
-  return `<svg viewBox="-6 -6 112 116" preserveAspectRatio="xMidYMid meet">
+  return `<svg viewBox="-8 -8 116 130" preserveAspectRatio="xMidYMid meet">
     <line x1="0" y1="104" x2="100" y2="104" stroke="#43402F" stroke-width="1.5"/>
-    ${figureSvg(kp1,'#A79E8C',true)}
+    ${figureSvg(kp1,'#A79E8C',true,key)}
     ${arrow}
-    ${figureSvg(kp2,color,false)}
+    ${figureSvg(kp2,color,false,key)}
   </svg>`;
 }
 /* ---------- MUSCLE MAP — original anatomical silhouette with the worked muscle highlighted ---------- */
@@ -522,17 +587,14 @@ function muscleMapSvg(muscleLabel, color){
 
 function poseFrame(p1,p2,color,exName,muscleLabel){
   const vid = EX_VIDEO_ID[exName];
-  const movementSvg = combinedPoseSvg(p1,p2,color);
-  const muscleSvg = muscleMapSvg(muscleLabel, color);
-  const legend = `<div class="pose-legend">
-      <span><i style="background:#A79E8C;border-top:2px dashed #A79E8C;height:0;"></i>Inicio</span>
-      <span><i style="background:${color}"></i>Fin</span>
-    </div>`;
+  const key = primaryMuscleKey(muscleLabel);
+  const movementSvg = combinedPoseSvg(p1,p2,color,key);
   const caption = muscleLabel.split('/')[0].trim();
   const videoBtn = vid ? `<button class="mini-video-btn video-trigger" data-vid="${vid}" data-title="${exName}">▶ Video real</button>` : '';
-  return `<div class="pose-frame split">
-    <div class="pose-half muscle-half">${muscleSvg}<div class="pose-caption">Trabaja: ${caption}</div></div>
-    <div class="pose-half move-half">${movementSvg}${legend}</div>
+  return `<div class="pose-frame anatomy">
+    ${movementSvg}
+    <div class="pose-caption"><i class="dot" style="background:${color}"></i>Trabaja: ${caption}</div>
+    <div class="pose-legend anat-legend"><span><i style="border-top:2px dashed #A79E8C;height:0;background:none"></i>Inicio</span><span><i style="background:${color}"></i>Fin</span></div>
     ${videoBtn}
   </div>`;
 }
@@ -624,16 +686,16 @@ const GYM_PLAN = [
  {title:'Día 2 — Espalda y bíceps', tag:'Semana 1 · técnica y base',
   exercises:[
    ex('Remo invertido con mesa','Espalda / Bíceps','4 × 8-12','Cuerpo recto bajo el borde de una mesa firme, tira el pecho hacia arriba.','rowStart','rowEnd','Eleva los pies para aumentar la dificultad.'),
-   ex('Superman','Espalda baja','3 × 12-15','Extiende brazos y piernas a la vez, aprieta glúteos y espalda.','hingeBottom','hingeTop','Pausa de 3 seg arriba cuando sea fácil.'),
-   ex('Y-T-W en el piso','Espalda / Hombro posterior','3 × 8 c/letra','Boca abajo, forma Y, T y W con los brazos juntando escápulas.','hingeBottom','rowEnd','Sostén 2 seg en cada letra.'),
+   ex('Superman','Espalda baja','3 × 12-15','Extiende brazos y piernas a la vez, aprieta glúteos y espalda.','proneRest','proneUp','Pausa de 3 seg arriba cuando sea fácil.'),
+   ex('Y-T-W en el piso','Espalda / Hombro posterior','3 × 8 c/letra','Boca abajo, forma Y, T y W con los brazos juntando escápulas.','proneRest','proneUp','Sostén 2 seg en cada letra.'),
    ex('Buenos días (sin peso)','Isquiotibiales / Espalda baja','3 × 15','Manos tras la cabeza, cadera atrás con espalda plana.','hingeTop','hingeBottom','Baja en 3 segundos.'),
-   ex('Bird dog (perro de caza)','Core / Espalda','3 × 10 c/lado','Extiende brazo y pierna opuestos con la cadera nivelada.','plank','shoulderTap','Pausa de 2 seg en la extensión.'),
+   ex('Bird dog (perro de caza)','Core / Espalda','3 × 10 c/lado','Extiende brazo y pierna opuestos con la cadera nivelada.','birdA','birdB','Pausa de 2 seg en la extensión.'),
    ex('Curl isométrico con toalla','Bíceps','3 × 20 seg','Sentado, pisa una toalla y tira hacia arriba con ambas manos resistiendo con la pierna.','curlDown','curlUp','Aumenta la tensión poco a poco.')
   ]},
  {title:'Día 3 — Piernas y glúteo', tag:'Semana 1 · técnica y base',
   exercises:[
    ex('Sentadillas','Piernas / Glúteo','4 × 15-20','Pecho arriba, rodillas siguen la punta del pie, baja hasta paralelo.','stand','squatDown','Pasa a sentadilla con salto cuando 25 sean fáciles.'),
-   ex('Silla invisible (pared)','Piernas / Isométrico','3 × 30-40 seg','Espalda en la pared, muslos paralelos al piso, sin apoyar las manos.','stand','squatDown','Suma 10 segundos por semana.'),
+   ex('Silla invisible (pared)','Piernas / Isométrico','3 × 30-40 seg','Espalda en la pared, muslos paralelos al piso, sin apoyar las manos.','wallStand','wallSit','Suma 10 segundos por semana.'),
    ex('Zancadas','Piernas','3 × 12 c/pierna','Rodilla trasera casi toca el piso, torso erguido.','stand','lungeFront','Pasa a zancada caminando.'),
    ex('RDL a una pierna (sin peso)','Isquiotibiales / Equilibrio','3 × 10 c/pierna','Cadera atrás, brazos como contrapeso.','hingeTop','hingeBottom','Sostén una mochila con libros.'),
    ex('Puente de glúteo isométrico','Glúteo','3 × 30 seg','Sube la cadera y sostén apretando el glúteo, sin arquear de más.','thrustDown','thrustUp','Pasa a una pierna cuando domines 40 seg.'),
@@ -650,11 +712,11 @@ const GYM_PLAN = [
   ]},
  {title:'Día 5 — Abdomen y suelo pélvico', tag:'Semana 1 · técnica y base',
   exercises:[
-   ex('Elevación de piernas en pared','Core inferior / Suelo pélvico','3 × 12','Acostado con las piernas hacia la pared, baja con control sin arquear la espalda.','hingeTop','plank','Pausa de 2 seg abajo.'),
-   ex('Tijeras verticales en pared','Core inferior / Suelo pélvico','3 × 20 seg','Piernas arriba, abre y cierra como tijera con control.','hingeTop','plank','Aumenta la amplitud.'),
-   ex('Abdominales bicicleta','Core','3 × 20','Codo hacia rodilla contraria, controla el movimiento.','plank','shoulderTap','Ralentiza el tempo.'),
+   ex('Elevación de piernas en pared','Core inferior / Suelo pélvico','3 × 12','Acostado con las piernas hacia la pared, baja con control sin arquear la espalda.','lyLegsDown','lyLegsUp','Pausa de 2 seg abajo.'),
+   ex('Tijeras verticales en pared','Core inferior / Suelo pélvico','3 × 20 seg','Piernas arriba, abre y cierra como tijera con control.','lyLegsUp','lyScissorsA','Aumenta la amplitud.'),
+   ex('Abdominales bicicleta','Core','3 × 20','Codo hacia rodilla contraria, controla el movimiento.','lyBikeA','lyBikeB','Ralentiza el tempo.'),
    ex('Plancha lateral','Core','3 × 30 seg c/lado','Cadera alta, cuerpo en línea recta.','sidePlank','sidePlank','Añade elevación de pierna.'),
-   ex('Dead bug','Core / Abdomen profundo','3 × 10 c/lado','Espalda pegada al piso, baja brazo y pierna contrarios lentamente.','plank','shoulderTap','Hazlo en 4 segundos por repetición.'),
+   ex('Dead bug','Core / Abdomen profundo','3 × 10 c/lado','Espalda pegada al piso, baja brazo y pierna contrarios lentamente.','lyDeadA','lyDeadB','Hazlo en 4 segundos por repetición.'),
    ex('Plancha','Core','3 × 45-60 seg','Respira, no dejes caer la cadera.','plank','plank','Pasa a plancha con toque de hombro.')
   ]},
  /* ===== SEMANA 2 — volumen y variantes ===== */
@@ -671,10 +733,10 @@ const GYM_PLAN = [
   exercises:[
    ex('Remo invertido agarre cerrado','Espalda / Bíceps','4 × 8-12','Manos juntas bajo la mesa, codos pegados al cuerpo.','rowStart','rowEnd','Eleva los pies.'),
    ex('Remo invertido con mesa','Espalda','3 × 10-12','Cuerpo recto, tira el pecho hacia arriba.','rowStart','rowEnd','Pausa 2 seg arriba.'),
-   ex('Superman','Espalda baja','3 × 15','Extiende brazos y piernas a la vez.','hingeBottom','hingeTop','Pausa de 3 seg arriba.'),
-   ex('Y-T-W en el piso','Espalda / Hombro posterior','3 × 10 c/letra','Forma Y, T y W juntando escápulas.','hingeBottom','rowEnd','Sostén 3 seg.'),
+   ex('Superman','Espalda baja','3 × 15','Extiende brazos y piernas a la vez.','proneRest','proneUp','Pausa de 3 seg arriba.'),
+   ex('Y-T-W en el piso','Espalda / Hombro posterior','3 × 10 c/letra','Forma Y, T y W juntando escápulas.','proneRest','proneUp','Sostén 3 seg.'),
    ex('Curl isométrico con toalla','Bíceps','3 × 25 seg','Tira hacia arriba con ambas manos resistiendo con la pierna.','curlDown','curlUp','Más tensión.'),
-   ex('Bird dog (perro de caza)','Core / Espalda','3 × 12 c/lado','Extiende brazo y pierna opuestos.','plank','shoulderTap','Pausa de 3 seg.')
+   ex('Bird dog (perro de caza)','Core / Espalda','3 × 12 c/lado','Extiende brazo y pierna opuestos.','birdA','birdB','Pausa de 3 seg.')
   ]},
  {title:'Día 8 — Piernas y glúteo (volumen)', tag:'Semana 2 · volumen y variantes',
   exercises:[
@@ -682,7 +744,7 @@ const GYM_PLAN = [
    ex('Sentadillas','Piernas','3 × 20-25','Pecho arriba, baja hasta paralelo.','stand','squatDown','Pasa a sentadilla con salto.'),
    ex('Zancada caminando','Piernas / Glúteo','3 × 12 c/pierna','Da pasos largos hacia adelante, rodilla trasera casi al piso.','stand','walkLunge','Más pasos.'),
    ex('Puente de glúteo a una pierna','Glúteo / Isquiotibiales','3 × 12 c/pierna','Una pierna extendida, empuja con el talón de la otra.','thrustDown','thrustUp','Pausa 2 seg arriba.'),
-   ex('Silla invisible (pared)','Piernas / Isométrico','3 × 45 seg','Muslos paralelos al piso, espalda en la pared.','stand','squatDown','Más tiempo.'),
+   ex('Silla invisible (pared)','Piernas / Isométrico','3 × 45 seg','Muslos paralelos al piso, espalda en la pared.','wallStand','wallSit','Más tiempo.'),
    ex('Elevación de talones a una pierna','Pantorrilla','3 × 12 c/pierna','Sube lo más alto, baja lento sobre una sola pierna.','calfDown','calfUp','Pausa arriba.')
   ]},
  {title:'Día 9 — Circuito quemagrasa', tag:'Semana 2 · volumen y variantes',
@@ -696,10 +758,10 @@ const GYM_PLAN = [
   ]},
  {title:'Día 10 — Isométricos de cuerpo completo', tag:'Semana 2 · volumen y variantes',
   exercises:[
-   ex('Silla invisible (pared)','Piernas / Isométrico','3 × 45-60 seg','Muslos paralelos al piso, sin apoyar las manos.','stand','squatDown','Sube 10 seg por semana.'),
+   ex('Silla invisible (pared)','Piernas / Isométrico','3 × 45-60 seg','Muslos paralelos al piso, sin apoyar las manos.','wallStand','wallSit','Sube 10 seg por semana.'),
    ex('Flexión isométrica a medio recorrido','Pecho / Tríceps','3 × 25 seg','Sostén a medio recorrido, cuerpo recto.','pushupUp','pushupDown','Sube 5 seg.'),
    ex('Puente de glúteo isométrico','Glúteo','3 × 40 seg','Sostén arriba apretando el glúteo.','thrustDown','thrustUp','Pasa a una pierna.'),
-   ex('Plancha hueca (hollow hold)','Core','3 × 20-30 seg','Boca arriba, espalda baja pegada al piso, brazos y piernas elevados.','hingeTop','plank','Estira más los brazos.'),
+   ex('Plancha hueca (hollow hold)','Core','3 × 20-30 seg','Boca arriba, espalda baja pegada al piso, brazos y piernas elevados.','lyLegsDown','lyHollow','Estira más los brazos.'),
    ex('Plancha lateral','Core','3 × 35 seg c/lado','Cadera alta, cuerpo en línea recta.','sidePlank','sidePlank','Suma 5 seg.'),
    ex('Plancha','Core','3 × 60 seg','No dejes caer la cadera.','plank','plank','Plancha con elevación de pierna.')
   ]},
@@ -717,8 +779,8 @@ const GYM_PLAN = [
   exercises:[
    ex('Remo invertido con mesa','Espalda / Bíceps','4 × 12-15','Pies elevados en una silla para más dificultad.','rowStart','rowEnd','Pausa 2 seg arriba.'),
    ex('Remo invertido agarre cerrado','Espalda / Bíceps','3 × 10-12','Codos pegados al cuerpo.','rowStart','rowEnd','Baja en 3 segundos.'),
-   ex('Superman','Espalda baja','3 × 15','Pausa de 3 segundos arriba.','hingeBottom','hingeTop','Más pausa.'),
-   ex('Y-T-W en el piso','Espalda / Hombro posterior','3 × 12 c/letra','Forma Y, T y W.','hingeBottom','rowEnd','Sostén 3 seg.'),
+   ex('Superman','Espalda baja','3 × 15','Pausa de 3 segundos arriba.','proneRest','proneUp','Más pausa.'),
+   ex('Y-T-W en el piso','Espalda / Hombro posterior','3 × 12 c/letra','Forma Y, T y W.','proneRest','proneUp','Sostén 3 seg.'),
    ex('Curl isométrico con toalla','Bíceps','3 × 30 seg','Tira hacia arriba resistiendo con la pierna.','curlDown','curlUp','Más tensión.'),
    ex('Buenos días (sin peso)','Isquiotibiales / Espalda baja','3 × 20','Cadera atrás con espalda plana.','hingeTop','hingeBottom','Baja en 3 segundos.')
   ]},
@@ -728,7 +790,7 @@ const GYM_PLAN = [
    ex('Sentadilla con salto','Piernas / Potencia','3 × 15','Aterriza suave flexionando rodillas.','squatDown','jump','Salta más alto.'),
    ex('Zancada caminando','Piernas / Glúteo','3 × 15 c/pierna','Pasos largos y controlados.','stand','walkLunge','Más pasos.'),
    ex('Puente de glúteo a una pierna','Glúteo / Isquiotibiales','3 × 15 c/pierna','Empuja con el talón y aprieta arriba.','thrustDown','thrustUp','Pausa 3 seg.'),
-   ex('Silla invisible (pared)','Piernas / Isométrico','3 × 60 seg','Muslos paralelos al piso.','stand','squatDown','Más tiempo.'),
+   ex('Silla invisible (pared)','Piernas / Isométrico','3 × 60 seg','Muslos paralelos al piso.','wallStand','wallSit','Más tiempo.'),
    ex('Elevación de talones a una pierna','Pantorrilla','3 × 15 c/pierna','Sube alto, baja lento.','calfDown','calfUp','Pausa arriba.')
   ]},
  {title:'Día 14 — Hombros y core (intensidad)', tag:'Semana 3 · intensidad',
@@ -737,8 +799,8 @@ const GYM_PLAN = [
    ex('Flexiones pike','Hombro / Tríceps','3 × 12','Baja la cabeza entre las manos.','overheadDown','overheadUp','Más lento.'),
    ex('Pájaros (elevación posterior)','Hombro posterior','3 × 20','Abre los brazos apretando escápulas.','hingeBottom','rowEnd','Sostén 2 seg.'),
    ex('Plancha con toque de hombro','Hombro / Core','3 × 24 toques','Cadera estable.','shoulderTapPlank','shoulderTap','Más lento.'),
-   ex('Plancha hueca (hollow hold)','Core','3 × 30 seg','Espalda baja pegada al piso.','hingeTop','plank','Estira más.'),
-   ex('Elevación de piernas en pared','Core inferior / Suelo pélvico','3 × 15','Baja con control, sin arquear la espalda.','hingeTop','plank','Pausa 2 seg abajo.')
+   ex('Plancha hueca (hollow hold)','Core','3 × 30 seg','Espalda baja pegada al piso.','lyLegsDown','lyHollow','Estira más.'),
+   ex('Elevación de piernas en pared','Core inferior / Suelo pélvico','3 × 15','Baja con control, sin arquear la espalda.','lyLegsDown','lyLegsUp','Pausa 2 seg abajo.')
   ]},
  {title:'Día 15 — Cuerpo completo y prueba final', tag:'Semana 3 · cierre del ciclo',
   exercises:[
