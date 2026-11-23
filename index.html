@@ -299,6 +299,9 @@
   .tag.gym{background:var(--gym-dim);color:#E6CC93;}
   .music-card{border-radius:18px;margin:12px 18px 0;}
   .music-embed{position:fixed;left:-400px;top:0;width:240px;height:240px;opacity:0.02;pointer-events:none;overflow:hidden;}
+  .music-search-row{flex-wrap:wrap;gap:8px;}
+  .music-search-row input{flex:1 1 100%;}
+  .music-search-row button,.music-search-row a{flex:1 1 0;justify-content:center;}
   .music-spotify{background:#0f2a1b;border:1px solid #1DB954;color:#57E389;border-radius:8px;padding:0 12px;font-size:11px;letter-spacing:0.05em;text-transform:uppercase;font-weight:600;flex:0 0 auto;height:34px;display:flex;align-items:center;text-decoration:none;}
   .music-vidtoggle{background:var(--surface-2);border:1px solid var(--line);color:var(--muted);border-radius:8px;padding:0 10px;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;font-weight:600;flex:0 0 auto;height:34px;}
   .mini-timer{border-radius:20px;border-color:var(--gold);}
@@ -430,7 +433,7 @@
   <div class="music-card">
     <div class="music-embed"><div id="ytplayer"></div></div>
     <div class="music-body">
-      <div class="music-title" id="musicTitle">Cargando música…</div>
+      <div class="music-title" id="musicTitle">Preparando reproductor…</div>
       <div class="music-sub" id="musicSub">Reproductor integrado</div>
       <div class="music-controls">
         <button id="musicPrev">⏮</button>
@@ -439,8 +442,9 @@
         <input type="range" id="musicVol" min="0" max="100" value="70">
       </div>
       <div class="music-search-row">
-        <input type="text" id="musicQuery" placeholder="Buscar música o pegar link de playlist">
-        <button id="musicSearchBtn">Buscar</button>
+        <input type="text" id="musicQuery" placeholder="Pega aquí el enlace de tu playlist o video">
+        <button id="musicSearchBtn">Cargar</button>
+        <a class="music-spotify" id="musicYtBtn" href="#" target="_blank" rel="noopener" style="background:#2a1212;border-color:#e0443a;color:#ff8a82;">YouTube</a>
         <a class="music-spotify" id="musicSpotifyBtn" href="#" target="_blank" rel="noopener">Spotify</a>
       </div>
       <div class="fallback-links" id="fallbackLinks" style="display:none;">
@@ -1751,6 +1755,7 @@ document.getElementById('voiceTest').addEventListener('click', ()=>{
    directly on the track playing inside the app. Spotify can't be controlled this way from
    a standalone saved file (it needs a Spotify Developer app + OAuth you'd have to register
    yourself), so that stays as a one-tap link to open your own Spotify app instead. */
+let musicLoadedOnce=false;
 let ytPlayer=null, ytReady=false, ytPlaying=false, musicQueryCustomized=false, ytFailed=false, ytErrorCount=0;
 const musicTitleEl = document.getElementById('musicTitle');
 const musicSubEl = document.getElementById('musicSub');
@@ -1770,7 +1775,7 @@ function showMusicFallback(){
 // happens when the page is opened from an unusual origin like content:// instead
 // of a real https:// site — fall back to direct links instead of leaving the
 // player stuck on "Cargando música…" forever.
-setTimeout(()=>{ if(!ytReady) showMusicFallback(); }, 7000);
+setTimeout(()=>{ if(!ytReady) showMusicFallback(); }, 12000);
 
 (function loadYouTubeAPI(){
   const tag = document.createElement('script');
@@ -1803,29 +1808,41 @@ function refreshTrackTitle(){
     musicTitleEl.textContent = (data && data.title) ? data.title : 'Reproduciendo…';
   }catch(e){}
 }
-function extractPlaylistId(text){
+function parseYt(text){
   try{
-    const url = new URL(text);
-    return url.searchParams.get('list');
-  }catch(e){ return null; }
+    const url = new URL(text.trim());
+    const list = url.searchParams.get('list');
+    let video = url.searchParams.get('v');
+    if(!video && /youtu\.be$/i.test(url.hostname)) video = url.pathname.slice(1);
+    return {list, video};
+  }catch(e){ return {list:null, video:null}; }
 }
-function loadMusicQuery(q){
-  if(!ytReady || !q) return;
-  const listId = extractPlaylistId(q);
-  musicSubEl.textContent = listId ? 'Playlist de YouTube' : `Buscando: ${q}`;
-  musicTitleEl.textContent = 'Cargando música…';
-  if(listId){
-    ytPlayer.loadPlaylist({ listType:'playlist', list:listId });
-  } else {
-    ytPlayer.loadPlaylist({ listType:'search', list:q });
+function loadMusicQuery(q, save){
+  if(!q) return;
+  const {list, video} = parseYt(q);
+  if(!list && !video){
+    // YouTube eliminó la búsqueda dentro del reproductor: abrimos la búsqueda de playlists para copiar un enlace
+    window.open('https://www.youtube.com/results?search_query='+encodeURIComponent(q)+'&sp=EgIQAw%253D%253D','_blank');
+    musicSubEl.textContent = 'Elige una playlist, copia su enlace y pégalo aquí';
+    return;
   }
+  if(!ytReady){ musicSubEl.textContent = 'El reproductor aún está cargando, intenta de nuevo en unos segundos'; return; }
+  musicTitleEl.textContent = 'Cargando música…';
+  musicSubEl.textContent = list ? 'Playlist de YouTube' : 'Video de YouTube';
+  if(list) ytPlayer.loadPlaylist({ listType:'playlist', list });
+  else ytPlayer.loadVideoById(video);
+  if(save){ try{ localStorage.setItem('musicLink', q.trim()); }catch(e){} }
 }
 function loadMusicForDay(){
   const isRun = activeDayId==='sab' || activeDayId==='dom';
   const query = isRun ? 'musica para correr' : 'musica para entrenar en el gimnasio';
   document.getElementById('spotifyLink').href = 'https://open.spotify.com/search/'+encodeURIComponent(query);
   document.getElementById('ytmusicLink').href = 'https://music.youtube.com/search?q='+encodeURIComponent(query);
-  if(!musicQueryCustomized) loadMusicQuery(query);
+  document.getElementById('musicYtBtn').href = 'https://www.youtube.com/results?search_query='+encodeURIComponent(query+' mix')+'&sp=EgIQAw%253D%253D';
+  if(musicLoadedOnce) return;
+  let saved=null; try{ saved=localStorage.getItem('musicLink'); }catch(e){}
+  if(saved && ytReady){ musicLoadedOnce=true; document.getElementById('musicQuery').value=saved; loadMusicQuery(saved,false); }
+  else if(!saved){ musicTitleEl.textContent='Elige tu música'; musicSubEl.textContent='Toca YouTube, escoge una playlist, copia el enlace y pégalo aquí (se guarda)'; }
 }
 function updateMusicLinks(){ loadMusicForDay(); }
 
@@ -1843,8 +1860,8 @@ document.getElementById('musicSpotifyBtn').addEventListener('click', (e)=>{
 document.getElementById('musicSearchBtn').addEventListener('click', ()=>{
   const q = document.getElementById('musicQuery').value.trim();
   if(!q) return;
-  musicQueryCustomized = true;
-  loadMusicQuery(q);
+  musicQueryCustomized = true; musicLoadedOnce = true;
+  loadMusicQuery(q, true);
 });
 document.getElementById('musicQuery').addEventListener('keydown', (e)=>{
   if(e.key==='Enter') document.getElementById('musicSearchBtn').click();
