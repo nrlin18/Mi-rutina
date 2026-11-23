@@ -298,8 +298,7 @@
   .daymeta .tag{border-radius:20px;padding:4px 12px;font-weight:600;letter-spacing:0.08em;}
   .tag.gym{background:var(--gym-dim);color:#E6CC93;}
   .music-card{border-radius:18px;margin:12px 18px 0;}
-  .music-embed{height:0;overflow:hidden;transition:height .25s;}
-  .music-card.open .music-embed{height:160px;}
+  .music-embed{height:160px;}
   .music-vidtoggle{background:var(--surface-2);border:1px solid var(--line);color:var(--muted);border-radius:8px;padding:0 10px;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;font-weight:600;flex:0 0 auto;height:34px;}
   .mini-timer{border-radius:20px;border-color:var(--gold);}
   .mt-bar{background:var(--gold);}
@@ -436,7 +435,6 @@
         <button id="musicPlay">▶</button>
         <button id="musicNext">⏭</button>
         <input type="range" id="musicVol" min="0" max="100" value="70">
-        <button class="music-vidtoggle" id="musicVidToggle">Video</button>
       </div>
       <div class="music-search-row">
         <input type="text" id="musicQuery" placeholder="Buscar música o pegar link de playlist">
@@ -1906,7 +1904,6 @@ document.getElementById('startGo').addEventListener('click',()=>{
   stopEverything(); renderRack(); renderDay();
 });
 document.getElementById('startCancel').addEventListener('click',()=>document.getElementById('startOverlay').classList.add('hidden'));
-document.getElementById('musicVidToggle').addEventListener('click',()=>document.querySelector('.music-card').classList.toggle('open'));
 
 /* ---------- GYM DAY RENDER ---------- */
 const gymList = document.getElementById('gymList');
