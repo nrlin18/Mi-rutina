@@ -700,6 +700,26 @@ const EX_VID = {
   'Zancadas':'video/zancadas.mp4',
   'Sentadilla con salto':'video/sentadilla-salto.mp4',
   'Plancha':'video/plancha.mp4',
+  'Press militar alterno de pie con kettlebells':'video/press-militar-alterno-de-pie-con-kettlebells.mp4',
+  'Press Arnold con kettlebell':'video/press-arnold-con-kettlebell.mp4',
+  'Push press a una mano con kettlebell':'video/push-press-a-una-mano-con-kettlebell.mp4',
+  'Elevaciones laterales neutras con mancuernas':'video/elevaciones-laterales-neutras-con-mancuernas.mp4',
+  'Press militar libre (parada de manos)':'video/press-militar-libre-parada-de-manos.mp4',
+  'Press militar con giro a una mano con kettlebell':'video/press-militar-con-giro-a-una-mano-con-kettlebell.mp4',
+  'Sentadilla con jerk a una mano con kettlebell':'video/sentadilla-con-jerk-a-una-mano-con-kettlebell.mp4',
+  'Flexiones verticales con banco':'video/flexiones-verticales-con-banco.mp4',
+  'Encogimientos libres en banco':'video/encogimientos-libres-en-banco.mp4',
+  'Remo al mentón con mancuernas':'video/remo-al-menton-con-mancuernas.mp4',
+  'Encogimiento aislado con mancuerna':'video/encogimiento-aislado-con-mancuerna.mp4',
+  'Elevaciones frontales en supinación con mancuernas':'video/elevaciones-frontales-en-supinacion-con-mancuernas.mp4',
+  'Press cubano con mancuernas':'video/press-cubano-con-mancuernas.mp4',
+  'Elevación lateral a frontal alta con mancuernas':'video/elevacion-lateral-a-frontal-alta-con-mancuernas.mp4',
+  'Remo superior trasero con mancuernas':'video/remo-superior-trasero-con-mancuernas.mp4',
+  'Press horizontal boca abajo con mancuernas':'video/press-horizontal-boca-abajo-con-mancuernas.mp4',
+  'Elevaciones laterales delanteras de lado con mancuerna':'video/elevaciones-laterales-delanteras-de-lado-con-mancu.mp4',
+  'Press Scott con mancuernas':'video/press-scott-con-mancuernas.mp4',
+  'Elevaciones circulares con mancuernas':'video/elevaciones-circulares-con-mancuernas.mp4',
+  'Encogimientos con mancuernas':'video/encogimientos-con-mancuernas.mp4',
   'Clean con kettlebell en bottoms up':'video/clean-con-kettlebell-en-bottoms-up.mp4',
   'Balanceo a una mano con kettlebell':'video/balanceo-a-una-mano-con-kettlebell.mp4',
   'Press alterno tipo seesaw con kettlebell':'video/press-alterno-tipo-seesaw-con-kettlebell.mp4',
@@ -1075,6 +1095,16 @@ const EXTRA_EQ5 = {
   6:[Object.assign(ex('Encogimientos inclinados con mancuernas','Espalda / Trapecio','3 × 12','Sentado en banco inclinado con mancuernas colgando, sube los hombros apretando el trapecio.','stand','stand','Sube el peso poco a poco manteniendo la técnica.'),{eq:true})]
 };
 GYM_PLAN.forEach((p,i)=>{ if(EXTRA_EQ5[i]) p.exercises.push(...EXTRA_EQ5[i]); });
+const EXTRA_EQ6 = {
+  3:[Object.assign(ex('Press militar alterno de pie con kettlebells','Hombro / Tríceps','3 × 10 c/brazo','Una kettlebell en cada hombro; empuja una arriba mientras la otra espera, y alterna.','overheadDown','overheadUp','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Elevaciones laterales neutras con mancuernas','Hombro','3 × 12','Palmas mirando al cuerpo, sube las mancuernas a los lados hasta el hombro y baja lento.','overheadDown','overheadUp','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Remo al mentón con mancuernas','Hombro / Espalda','3 × 12','Mancuernas frente al cuerpo, sube con los codos arriba hasta el pecho y baja lento.','rowStart','rowEnd','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Press cubano con mancuernas','Hombro / Espalda','3 × 10','Sentado, codos abiertos a la altura del hombro, rota las mancuernas hacia arriba y empuja.','overheadDown','overheadUp','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Press Scott con mancuernas','Hombro','3 × 10','Mancuernas al pecho con los codos al frente, empuja arriba y baja lento.','overheadDown','overheadUp','Sube el peso poco a poco manteniendo la técnica.'),{eq:true})],
+  13:[Object.assign(ex('Press Arnold con kettlebell','Hombro / Tríceps','3 × 8 c/brazo','Kettlebell frente al pecho, gira el brazo mientras empujas hasta arriba de la cabeza.','overheadDown','overheadUp','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Press militar con giro a una mano con kettlebell','Hombro / Tríceps','3 × 8 c/brazo','Al subir la kettlebell gira la muñeca hasta extender el brazo arriba.','overheadDown','overheadUp','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Elevaciones frontales en supinación con mancuernas','Hombro','3 × 12','Mancuernas con las palmas hacia arriba, súbelas al frente hasta el hombro y baja lento.','overheadDown','overheadUp','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Elevación lateral a frontal alta con mancuernas','Hombro','3 × 10','Sentado, sube las mancuernas a los lados y termina llevándolas al frente hacia arriba.','overheadDown','overheadUp','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Elevaciones laterales delanteras de lado con mancuerna','Hombro','3 × 12 c/brazo','Acostado de lado, sube la mancuerna con el brazo casi recto y baja con control.','overheadDown','overheadUp','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Elevaciones circulares con mancuernas','Hombro','3 × 10','Abre los brazos a los lados y llévalos hasta arriba dibujando un arco, y baja lento.','overheadDown','overheadUp','Sube el peso poco a poco manteniendo la técnica.'),{eq:true})],
+  14:[Object.assign(ex('Push press a una mano con kettlebell','Hombro / Piernas','3 × 8 c/brazo','Flexiona un poco las rodillas y empuja la kettlebell arriba con el impulso de las piernas.','overheadDown','overheadUp','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), ex('Press militar libre (parada de manos)','Hombro / Tríceps','3 × 5','Parada de manos contra la pared, baja la cabeza con control y empuja hasta extender los brazos.','overheadDown','overheadUp','Sube el peso poco a poco manteniendo la técnica.'), Object.assign(ex('Sentadilla con jerk a una mano con kettlebell','Hombro / Piernas','3 × 8 c/brazo','Con la kettlebell arriba, baja en sentadilla y sube manteniendo el brazo firme.','hingeTop','hingeBottom','Sube el peso poco a poco manteniendo la técnica.'),{eq:true})],
+  5:[Object.assign(ex('Flexiones verticales con banco','Hombro / Tríceps','3 × 8','Manos en el piso y pies sobre el banco, cadera arriba; baja la cabeza y empuja.','pushupUp','pushupDown','Sube el peso poco a poco manteniendo la técnica.'),{eq:true})],
+  1:[Object.assign(ex('Encogimientos libres en banco','Espalda / Trapecio','3 × 15','Sentado en el banco con las manos al lado, sube los hombros hacia las orejas y baja lento.','stand','stand','Sube el peso poco a poco manteniendo la técnica.'),{eq:true})],
+  6:[Object.assign(ex('Encogimiento aislado con mancuerna','Espalda / Trapecio','3 × 15 c/lado','Sentado en el banco con una mancuerna, sube un solo hombro y baja con control.','stand','squatDown','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Remo superior trasero con mancuernas','Espalda / Hombro','3 × 12','Inclinado con la espalda recta, sube las mancuernas abriendo los codos hacia atrás.','rowStart','rowEnd','Sube el peso poco a poco manteniendo la técnica.'),{eq:true})],
+  11:[Object.assign(ex('Press horizontal boca abajo con mancuernas','Espalda / Hombro','3 × 12','Boca abajo en el banco, lleva las mancuernas hacia adelante y atrás con los brazos bajo control.','overheadDown','overheadUp','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Encogimientos con mancuernas','Espalda / Trapecio','4 × 15','De pie con mancuernas a los lados, sube los hombros hacia las orejas y baja lento.','stand','stand','Sube el peso poco a poco manteniendo la técnica.'),{eq:true})]
+};
+GYM_PLAN.forEach((p,i)=>{ if(EXTRA_EQ6[i]) p.exercises.push(...EXTRA_EQ6[i]); });
 const DAYS = GYM_PLAN.map((p,i)=>({ id:i, key:'d'+(i+1), label:`Sem ${Math.floor(i/5)+1} · ${WEEKDAY_NAMES[i%5]}`, short:WEEKDAY_SHORT[i%5], type:'gym', title:p.title, tag:p.tag, _all:p.exercises, get exercises(){ return eqMode ? this._all : this._all.filter(e=>!e.eq); } }));
 
 const RUN_PLANS = {
@@ -1451,6 +1481,26 @@ function renderDay(){
 
 /* ---------- VOICE INSTRUCTIONS — spoken, plain-language execution cues ---------- */
 const VOICE_INSTRUCTIONS = {
+  'Press militar alterno de pie con kettlebells':'Una kettlebell en cada hombro; empuja una arriba mientras la otra espera, y alterna.',
+  'Press Arnold con kettlebell':'Kettlebell frente al pecho, gira el brazo mientras empujas hasta arriba de la cabeza.',
+  'Push press a una mano con kettlebell':'Flexiona un poco las rodillas y empuja la kettlebell arriba con el impulso de las piernas.',
+  'Elevaciones laterales neutras con mancuernas':'Palmas mirando al cuerpo, sube las mancuernas a los lados hasta el hombro y baja lento.',
+  'Press militar libre (parada de manos)':'Parada de manos contra la pared, baja la cabeza con control y empuja hasta extender los brazos.',
+  'Press militar con giro a una mano con kettlebell':'Al subir la kettlebell gira la muñeca hasta extender el brazo arriba.',
+  'Sentadilla con jerk a una mano con kettlebell':'Con la kettlebell arriba, baja en sentadilla y sube manteniendo el brazo firme.',
+  'Flexiones verticales con banco':'Manos en el piso y pies sobre el banco, cadera arriba; baja la cabeza y empuja.',
+  'Encogimientos libres en banco':'Sentado en el banco con las manos al lado, sube los hombros hacia las orejas y baja lento.',
+  'Remo al mentón con mancuernas':'Mancuernas frente al cuerpo, sube con los codos arriba hasta el pecho y baja lento.',
+  'Encogimiento aislado con mancuerna':'Sentado en el banco con una mancuerna, sube un solo hombro y baja con control.',
+  'Elevaciones frontales en supinación con mancuernas':'Mancuernas con las palmas hacia arriba, súbelas al frente hasta el hombro y baja lento.',
+  'Press cubano con mancuernas':'Sentado, codos abiertos a la altura del hombro, rota las mancuernas hacia arriba y empuja.',
+  'Elevación lateral a frontal alta con mancuernas':'Sentado, sube las mancuernas a los lados y termina llevándolas al frente hacia arriba.',
+  'Remo superior trasero con mancuernas':'Inclinado con la espalda recta, sube las mancuernas abriendo los codos hacia atrás.',
+  'Press horizontal boca abajo con mancuernas':'Boca abajo en el banco, lleva las mancuernas hacia adelante y atrás con los brazos bajo control.',
+  'Elevaciones laterales delanteras de lado con mancuerna':'Acostado de lado, sube la mancuerna con el brazo casi recto y baja con control.',
+  'Press Scott con mancuernas':'Mancuernas al pecho con los codos al frente, empuja arriba y baja lento.',
+  'Elevaciones circulares con mancuernas':'Abre los brazos a los lados y llévalos hasta arriba dibujando un arco, y baja lento.',
+  'Encogimientos con mancuernas':'De pie con mancuernas a los lados, sube los hombros hacia las orejas y baja lento.',
   'Clean con kettlebell en bottoms up':'Kettlebell boca abajo, tírala hacia el hombro con la muñeca firme y mantenla equilibrada.',
   'Balanceo a una mano con kettlebell':'Bisagra de cadera, lanza la kettlebell hacia adelante con la cadera, no con el brazo.',
   'Press alterno tipo seesaw con kettlebell':'Una kettlebell arriba y otra al hombro; alterna subiendo una y bajando la otra.',
