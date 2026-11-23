@@ -298,7 +298,8 @@
   .daymeta .tag{border-radius:20px;padding:4px 12px;font-weight:600;letter-spacing:0.08em;}
   .tag.gym{background:var(--gym-dim);color:#E6CC93;}
   .music-card{border-radius:18px;margin:12px 18px 0;}
-  .music-embed{height:160px;}
+  .music-embed{position:fixed;left:-400px;top:0;width:240px;height:240px;opacity:0.02;pointer-events:none;overflow:hidden;}
+  .music-spotify{background:#0f2a1b;border:1px solid #1DB954;color:#57E389;border-radius:8px;padding:0 12px;font-size:11px;letter-spacing:0.05em;text-transform:uppercase;font-weight:600;flex:0 0 auto;height:34px;display:flex;align-items:center;text-decoration:none;}
   .music-vidtoggle{background:var(--surface-2);border:1px solid var(--line);color:var(--muted);border-radius:8px;padding:0 10px;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;font-weight:600;flex:0 0 auto;height:34px;}
   .mini-timer{border-radius:20px;border-color:var(--gold);}
   .mt-bar{background:var(--gold);}
@@ -440,6 +441,7 @@
       <div class="music-search-row">
         <input type="text" id="musicQuery" placeholder="Buscar música o pegar link de playlist">
         <button id="musicSearchBtn">Buscar</button>
+        <a class="music-spotify" id="musicSpotifyBtn" href="#" target="_blank" rel="noopener">Spotify</a>
       </div>
       <div class="fallback-links" id="fallbackLinks" style="display:none;">
         <div class="fallback-note">El reproductor integrado no está disponible en este navegador/vista — usa uno de estos:</div>
@@ -1777,7 +1779,7 @@ setTimeout(()=>{ if(!ytReady) showMusicFallback(); }, 7000);
 })();
 window.onYouTubeIframeAPIReady = function(){
   ytPlayer = new YT.Player('ytplayer', {
-    height: '160', width: '100%',
+    height: '240', width: '240',
     playerVars: { playsinline:1, controls:0, modestbranding:1, rel:0 },
     events: {
       onReady: ()=>{ ytReady = true; ytPlayer.setVolume(70); loadMusicForDay(); },
@@ -1834,6 +1836,10 @@ musicPlayBtn.addEventListener('click', ()=>{
 document.getElementById('musicNext').addEventListener('click', ()=>{ if(ytReady) ytPlayer.nextVideo(); });
 document.getElementById('musicPrev').addEventListener('click', ()=>{ if(ytReady) ytPlayer.previousVideo(); });
 document.getElementById('musicVol').addEventListener('input', (e)=>{ if(ytReady) ytPlayer.setVolume(e.target.value); });
+document.getElementById('musicSpotifyBtn').addEventListener('click', (e)=>{
+  const q = document.getElementById('musicQuery').value.trim() || 'música para entrenar gym';
+  e.currentTarget.href = 'https://open.spotify.com/search/' + encodeURIComponent(q);
+});
 document.getElementById('musicSearchBtn').addEventListener('click', ()=>{
   const q = document.getElementById('musicQuery').value.trim();
   if(!q) return;
