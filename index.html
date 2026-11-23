@@ -429,6 +429,8 @@ const POSES = {
   lyBikeB:{head:[14,90],shoulder:[26,94],elbowL:[20,84],elbowR:[20,84],hip:[56,98],handL:[18,76],handR:[18,76],kneeL:[76,92],kneeR:[48,76],footL:[98,96],footR:[66,70]},
   proneRest:{head:[14,94],shoulder:[26,96],elbowL:[16,98],elbowR:[16,98],hip:[58,98],handL:[6,98],handR:[6,98],kneeL:[76,98],kneeR:[76,98],footL:[96,98],footR:[96,98]},
   proneUp:{head:[12,82],shoulder:[26,88],elbowL:[16,80],elbowR:[16,80],hip:[58,96],handL:[6,72],handR:[6,72],kneeL:[78,90],kneeR:[78,90],footL:[98,82],footR:[98,82]},
+  bearA:{head:[16,64],shoulder:[30,66],elbowL:[24,84],elbowR:[34,84],hip:[68,62],handL:[20,102],handR:[36,102],kneeL:[60,86],kneeR:[74,88],footL:[80,102],footR:[90,102]},
+  bearB:{head:[16,64],shoulder:[30,66],elbowL:[34,84],elbowR:[24,84],hip:[68,62],handL:[36,102],handR:[20,102],kneeL:[74,88],kneeR:[60,86],footL:[90,102],footR:[80,102]},
   birdA:{head:[18,62],shoulder:[30,66],elbowL:[30,84],elbowR:[30,84],hip:[64,66],handL:[30,102],handR:[30,102],kneeL:[64,102],kneeR:[64,102],footL:[86,102],footR:[86,102]},
   birdB:{head:[18,58],shoulder:[30,64],elbowL:[30,84],elbowR:[18,58],hip:[64,64],handL:[30,102],handR:[6,52],kneeL:[64,102],kneeR:[82,58],footL:[86,102],footR:[98,50]},
   wallStand:{head:[30,16],shoulder:[30,28],elbowL:[32,42],elbowR:[32,42],hip:[30,56],handL:[34,54],handR:[34,54],kneeL:[32,78],kneeR:[32,78],footL:[34,100],footR:[34,100]},
@@ -1023,7 +1025,7 @@ const GYM_PLAN = [
    ex('Flexiones pike','Hombro / Tríceps','4 × 8-12','Cadera arriba en V invertida, baja la cabeza entre las manos.','overheadDown','overheadUp','Eleva los pies sobre una silla cuando domines 12.'),
    ex('Pájaros (elevación posterior)','Hombro posterior','3 × 15','Torso inclinado, abre los brazos apretando entre escápulas.','hingeBottom','rowEnd','Sostén 2 seg abierto.'),
    ex('Plancha con toque de hombro','Hombro / Core','3 × 20 toques','Cadera estable, evita rotar el torso.','shoulderTapPlank','shoulderTap','Hazlo más lento.'),
-   ex('Gateo del oso','Hombro / Core','3 × 30 seg','En cuatro apoyos con rodillas flotando, avanza y retrocede con control.','plank','shoulderTap','Aumenta a 40 seg.'),
+   ex('Gateo del oso','Hombro / Core','3 × 30 seg','En cuatro apoyos con rodillas flotando, avanza y retrocede con control.','bearA','bearB','Aumenta a 40 seg.'),
    ex('Plancha','Core / Hombro','3 × 45 seg','Mantén la respiración, evita que la cadera caiga.','plank','plank','Llega a 60 seg y pasa a plancha con elevación de pierna.'),
    ex('Círculos de brazos','Hombro / Movilidad','2 × 30 seg','Brazos extendidos, círculos amplios adelante y atrás.','overheadDown','overheadUp','')
   ]},
@@ -1071,7 +1073,7 @@ const GYM_PLAN = [
    ex('Rodillas altas','Piernas / Cardio','4 × 30 seg','En el lugar, sube las rodillas a la altura de la cadera con ritmo.','stand','jump','Más rápido cada semana.'),
    ex('Sentadilla profunda con pulsos','Piernas / Glúteo','4 × 30 seg','Baja profundo y haz pulsos cortos abajo.','stand','squatDown','Más pulsos.'),
    ex('Flexiones con pulsaciones','Pecho / Hombro','4 × 30 seg','Pulsos cortos en el fondo de la flexión.','pushupUp','pushupDown','Sube el tiempo.'),
-   ex('Gateo del oso','Hombro / Core','4 × 30 seg','Avanza y retrocede con rodillas flotando.','plank','shoulderTap','Más tiempo.'),
+   ex('Gateo del oso','Hombro / Core','4 × 30 seg','Avanza y retrocede con rodillas flotando.','bearA','bearB','Más tiempo.'),
    ex('Salto de tijera','Piernas / Cardio','4 × 40 seg','Salta abriendo piernas y subiendo brazos.','jjClosed','jjOpen','Más rápido.'),
    ex('Escaladores','Core / Cardio','4 × 30 seg','En plancha alta, lleva las rodillas al pecho alternando.','plank','shoulderTap','Más velocidad.')
   ]},
