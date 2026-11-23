@@ -700,6 +700,27 @@ const EX_VID = {
   'Zancadas':'video/zancadas.mp4',
   'Sentadilla con salto':'video/sentadilla-salto.mp4',
   'Plancha':'video/plancha.mp4',
+  'Salto de esquí':'video/salto-de-esqui.mp4',
+  'Salto con desplazamiento lateral':'video/salto-con-desplazamiento-lateral.mp4',
+  'Burpee jack':'video/burpee-jack.mp4',
+  'Clean a dos manos con kettlebell':'video/clean-a-dos-manos-con-kettlebell.mp4',
+  'Puñetazos alternos':'video/punetazos-alternos.mp4',
+  'Burpee con kettlebell':'video/burpee-con-kettlebell.mp4',
+  'Desplazamientos de boxeo':'video/desplazamientos-de-boxeo.mp4',
+  'Elevación de rodillas':'video/elevacion-de-rodillas.mp4',
+  'Salto en zancada':'video/salto-en-zancada.mp4',
+  'Levantamiento turco con kettlebell':'video/levantamiento-turco-con-kettlebell.mp4',
+  'Squat tuck jumps':'video/squat-tuck-jumps.mp4',
+  'Tuck jumps':'video/tuck-jumps.mp4',
+  'Sprints con rodilla alta':'video/sprints-con-rodilla-alta.mp4',
+  'Carrera hacia atrás':'video/carrera-hacia-atras.mp4',
+  'Caminar en cuclillas':'video/caminar-en-cuclillas.mp4',
+  'Thruster con kettlebell':'video/thruster-con-kettlebell.mp4',
+  'Burpee con mancuernas':'video/burpee-con-mancuernas.mp4',
+  'Burpee':'video/burpee.mp4',
+  'Clean amplio aislado con kettlebell':'video/clean-amplio-aislado-con-kettlebell.mp4',
+  'Skips':'video/skips.mp4',
+  'Clean y jerk con una mano con kettlebell':'video/clean-y-jerk-con-una-mano-con-kettlebell.mp4',
   'Press alterno con kettlebell en el suelo':'video/press-alterno-con-kettlebell-en-el-suelo.mp4',
   'Press de banca unilateral con kettlebell invertida':'video/press-de-banca-unilateral-con-kettlebell-invertida.mp4',
   'Press de banca unilateral con kettlebell':'video/press-de-banca-unilateral-con-kettlebell.mp4',
@@ -1231,6 +1252,13 @@ const EXTRA_EQ9 = {
   8:[ex('Rodilla al codo con sentadilla','Core / Piernas','3 × 30 s','De pie, lleva la rodilla al codo contrario y contrae el abdomen.','stand','jump','Sube el peso poco a poco manteniendo la técnica.'), ex('Rodilla al codo','Core / Piernas','3 × 30 s','De pie, sube la rodilla y baja el codo opuesto hasta tocarse.','stand','jump','Sube el peso poco a poco manteniendo la técnica.'), ex('Rodilla al codo con giro','Core / Piernas','3 × 30 s','Gira el torso llevando el codo hacia la rodilla contraria.','stand','jump','Sube el peso poco a poco manteniendo la técnica.'), ex('Pies rápidos de pie','Piernas / Cardio','3 × 30 s','Pasitos muy rápidos sobre la punta de los pies, brazos relajados.','stand','jump','Sube el peso poco a poco manteniendo la técnica.'), ex('Salto alterno en el sitio','Piernas / Cardio','3 × 30 s','Salta alternando las piernas con ritmo ligero y brazos al compás.','stand','jump','Sube el peso poco a poco manteniendo la técnica.'), ex('Plyo jacks','Piernas / Cardio','3 × 30 s','Salta abriendo las piernas en sentadilla y sube los brazos, y vuelve juntos.','stand','jump','Sube el peso poco a poco manteniendo la técnica.'), Object.assign(ex('Salto con cuerda normal','Piernas / Cardio','3 × 45 s','Salta con pequeños rebotes girando la cuerda con las muñecas.','stand','jump','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), ex('Carrera rápida en el sitio','Piernas / Cardio','3 × 30 s','Corre en el lugar con rodillas medias y brazos activos.','stand','jump','Sube el peso poco a poco manteniendo la técnica.'), ex('Elevación de rodillas con apoyo','Core / Piernas','3 × 30 s','Apoyado en la pared, sube las rodillas alternando con el abdomen apretado.','stand','jump','Sube el peso poco a poco manteniendo la técnica.'), ex('Pies rápidos agachado','Piernas / Cardio','3 × 30 s','Semi agachado, pasos laterales muy rápidos manteniendo el torso inclinado.','stand','jump','Sube el peso poco a poco manteniendo la técnica.'), ex('Patadas altas','Piernas / Cardio','3 × 30 s','Alterna patadas altas al frente manteniendo el equilibrio.','stand','jump','Sube el peso poco a poco manteniendo la técnica.'), ex('Split jacks','Piernas / Cardio','3 × 30 s','Salta alternando una pierna adelante y otra atrás con un brazo arriba.','stand','jump','Sube el peso poco a poco manteniendo la técnica.'), ex('Talones al glúteo','Piernas / Cardio','3 × 30 s','De pie, trota llevando los talones hacia los glúteos.','stand','jump','Sube el peso poco a poco manteniendo la técnica.')]
 };
 GYM_PLAN.forEach((p,i)=>{ if(EXTRA_EQ9[i]) p.exercises.push(...EXTRA_EQ9[i]); });
+const EXTRA_EQ10 = {
+  8:[ex('Salto de esquí','Piernas / Cardio','3 × 30 s','Salta de lado a lado con los pies juntos como esquiando, rodillas suaves.','stand','jump','Sube el peso poco a poco manteniendo la técnica.'), ex('Salto con desplazamiento lateral','Piernas / Cardio','3 × 30 s','Salta hacia un lado y toca el piso con la mano, vuelve y cambia de lado.','stand','jump','Sube el peso poco a poco manteniendo la técnica.'), ex('Puñetazos alternos','Hombro / Core','3 × 30 s','Golpea al frente alternando los brazos con el core apretado.','stand','jump','Sube el peso poco a poco manteniendo la técnica.'), ex('Desplazamientos de boxeo','Piernas / Cardio','3 × 30 s','Postura de boxeo, desplázate hacia adelante y atrás con pasos cortos.','stand','jump','Sube el peso poco a poco manteniendo la técnica.'), ex('Elevación de rodillas','Core / Piernas','3 × 30 s','De pie, sube las rodillas alternando a la altura de la cadera.','stand','jump','Sube el peso poco a poco manteniendo la técnica.'), ex('Squat tuck jumps','Piernas / Cardio','3 × 8','Desde sentadilla, salta y lleva las rodillas al pecho en el aire.','stand','jump','Sube el peso poco a poco manteniendo la técnica.'), ex('Tuck jumps','Piernas / Cardio','3 × 8','Salta alto llevando las rodillas al pecho y cae suave.','stand','jump','Sube el peso poco a poco manteniendo la técnica.'), ex('Sprints con rodilla alta','Piernas / Cardio','3 × 20 s','Corre en el lugar a máxima velocidad subiendo las rodillas.','stand','jump','Sube el peso poco a poco manteniendo la técnica.'), ex('Carrera hacia atrás','Piernas / Cardio','3 × 30 s','Corre hacia atrás con pasos cortos y mirada atenta.','stand','jump','Sube el peso poco a poco manteniendo la técnica.'), ex('Burpee','Cuerpo completo','3 × 10','Baja a plancha, regresa a cuclillas y salta con los brazos arriba.','stand','jump','Sube el peso poco a poco manteniendo la técnica.'), ex('Skips','Piernas / Cardio','3 × 30 s','Saltitos alternando rodilla arriba con brazos al compás.','stand','jump','Sube el peso poco a poco manteniendo la técnica.')],
+  14:[ex('Burpee jack','Cuerpo completo','3 × 10','Desde plancha, abre y cierra los pies saltando y vuelve a plancha.','stand','jump','Sube el peso poco a poco manteniendo la técnica.'), Object.assign(ex('Clean a dos manos con kettlebell','Glúteo / Hombro','3 × 8','Dos kettlebells al piso, tira con la cadera y llévalas a los hombros.','hingeTop','hingeBottom','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Burpee con kettlebell','Cuerpo completo','3 × 8','Baja a plancha con las manos en las kettlebells, regresa y salta con ellas.','stand','jump','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Levantamiento turco con kettlebell','Core / Hombro','3 × 4 c/lado','Del piso a de pie con la kettlebell arriba y vuelve siguiéndola con la mirada.','stand','squatDown','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Thruster con kettlebell','Piernas / Hombro','4 × 10','Baja en sentadilla con las kettlebells a los hombros y sube empujándolas arriba.','stand','squatDown','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Burpee con mancuernas','Cuerpo completo','3 × 8','Mancuernas en las manos, baja a plancha, regresa y salta con ellas.','stand','jump','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Clean amplio aislado con kettlebell','Glúteo / Hombro','3 × 8 c/brazo','Con una kettlebell, llévala al hombro con la cadera y bájala controlada.','hingeTop','hingeBottom','Sube el peso poco a poco manteniendo la técnica.'),{eq:true})],
+  7:[ex('Salto en zancada','Piernas / Glúteo','3 × 10','Desde zancada, salta cambiando de pierna en el aire y cae suave.','stand','jump','Sube el peso poco a poco manteniendo la técnica.'), ex('Caminar en cuclillas','Piernas / Glúteo','3 × 20 pasos','En cuclillas profundas, camina manteniendo el torso erguido.','stand','jump','Sube el peso poco a poco manteniendo la técnica.')],
+  13:[Object.assign(ex('Clean y jerk con una mano con kettlebell','Hombro / Piernas','3 × 6 c/brazo','Sube la kettlebell al hombro y empuja arriba con impulso de las piernas.','hingeTop','hingeBottom','Sube el peso poco a poco manteniendo la técnica.'),{eq:true})]
+};
+GYM_PLAN.forEach((p,i)=>{ if(EXTRA_EQ10[i]) p.exercises.push(...EXTRA_EQ10[i]); });
 const DAYS = GYM_PLAN.map((p,i)=>({ id:i, key:'d'+(i+1), label:`Sem ${Math.floor(i/5)+1} · ${WEEKDAY_NAMES[i%5]}`, short:WEEKDAY_SHORT[i%5], type:'gym', title:p.title, tag:p.tag, _all:p.exercises, get exercises(){ return eqMode ? this._all : this._all.filter(e=>!e.eq); } }));
 
 const RUN_PLANS = {
@@ -1607,6 +1635,27 @@ function renderDay(){
 
 /* ---------- VOICE INSTRUCTIONS — spoken, plain-language execution cues ---------- */
 const VOICE_INSTRUCTIONS = {
+  'Salto de esquí':'Salta de lado a lado con los pies juntos como esquiando, rodillas suaves.',
+  'Salto con desplazamiento lateral':'Salta hacia un lado y toca el piso con la mano, vuelve y cambia de lado.',
+  'Burpee jack':'Desde plancha, abre y cierra los pies saltando y vuelve a plancha.',
+  'Clean a dos manos con kettlebell':'Dos kettlebells al piso, tira con la cadera y llévalas a los hombros.',
+  'Puñetazos alternos':'Golpea al frente alternando los brazos con el core apretado.',
+  'Burpee con kettlebell':'Baja a plancha con las manos en las kettlebells, regresa y salta con ellas.',
+  'Desplazamientos de boxeo':'Postura de boxeo, desplázate hacia adelante y atrás con pasos cortos.',
+  'Elevación de rodillas':'De pie, sube las rodillas alternando a la altura de la cadera.',
+  'Salto en zancada':'Desde zancada, salta cambiando de pierna en el aire y cae suave.',
+  'Levantamiento turco con kettlebell':'Del piso a de pie con la kettlebell arriba y vuelve siguiéndola con la mirada.',
+  'Squat tuck jumps':'Desde sentadilla, salta y lleva las rodillas al pecho en el aire.',
+  'Tuck jumps':'Salta alto llevando las rodillas al pecho y cae suave.',
+  'Sprints con rodilla alta':'Corre en el lugar a máxima velocidad subiendo las rodillas.',
+  'Carrera hacia atrás':'Corre hacia atrás con pasos cortos y mirada atenta.',
+  'Caminar en cuclillas':'En cuclillas profundas, camina manteniendo el torso erguido.',
+  'Thruster con kettlebell':'Baja en sentadilla con las kettlebells a los hombros y sube empujándolas arriba.',
+  'Burpee con mancuernas':'Mancuernas en las manos, baja a plancha, regresa y salta con ellas.',
+  'Burpee':'Baja a plancha, regresa a cuclillas y salta con los brazos arriba.',
+  'Clean amplio aislado con kettlebell':'Con una kettlebell, llévala al hombro con la cadera y bájala controlada.',
+  'Skips':'Saltitos alternando rodilla arriba con brazos al compás.',
+  'Clean y jerk con una mano con kettlebell':'Sube la kettlebell al hombro y empuja arriba con impulso de las piernas.',
   'Press alterno con kettlebell en el suelo':'Acostado en el piso, empuja una kettlebell arriba mientras la otra baja, y alterna.',
   'Press de banca unilateral con kettlebell invertida':'Acostado en el banco, empuja la kettlebell boca abajo manteniéndola equilibrada.',
   'Press de banca unilateral con kettlebell':'Acostado en el banco, empuja una kettlebell arriba y baja con control.',
