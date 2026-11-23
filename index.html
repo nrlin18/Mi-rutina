@@ -700,6 +700,11 @@ const EX_VID = {
   'Zancadas':'video/zancadas.mp4',
   'Sentadilla con salto':'video/sentadilla-salto.mp4',
   'Plancha':'video/plancha.mp4',
+  'Halo con kettlebell':'video/halo-con-kettlebell.mp4',
+  'Push press doble con kettlebells':'video/push-press-doble-con-kettlebells.mp4',
+  'Press militar a una mano de rodillas con kettlebell':'video/press-militar-a-una-mano-de-rodillas-con-kettlebel.mp4',
+  'Press militar neutro a una mano de rodillas con kettlebell':'video/press-militar-neutro-a-una-mano-de-rodillas-con-ke.mp4',
+  'Subida al escalón (step up)':'video/step-up-banco.mp4',
   'Zancada trasera con mancuernas':'video/zancada-trasera-con-mancuernas.mp4',
   'Hip thrust con mancuerna':'video/hip-thrust-con-mancuerna.mp4',
   'Sentadilla abierta con mancuerna':'video/sentadilla-abierta-con-mancuerna.mp4',
@@ -1036,6 +1041,11 @@ const EXTRA_EQ3 = {
   13:[Object.assign(ex('Sots press con kettlebell','Hombro / Piernas','3 × 8 c/brazo','En sentadilla profunda, empuja la kettlebell sobre la cabeza manteniendo el equilibrio.','overheadDown','overheadUp','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Elevaciones completas con mancuernas','Hombro','3 × 12','Con mancuernas, súbelas por delante hasta arriba de la cabeza y baja con control.','overheadDown','overheadUp','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Press angular con kettlebell','Hombro / Espalda','3 × 10','Inclinado con la espalda recta, empuja la kettlebell hacia adelante y regresa.','overheadDown','overheadUp','Sube el peso poco a poco manteniendo la técnica.'),{eq:true})]
 };
 GYM_PLAN.forEach((p,i)=>{ if(EXTRA_EQ3[i]) p.exercises.push(...EXTRA_EQ3[i]); });
+const EXTRA_EQ4 = {
+  3:[Object.assign(ex('Halo con kettlebell','Hombro / Core','3 × 8 c/dirección','Sostén la kettlebell por los cuernos y rodea la cabeza en círculo, manteniendo el torso firme.','stand','squatDown','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Press militar a una mano de rodillas con kettlebell','Hombro / Core','3 × 8 c/brazo','De rodillas con la espalda recta, empuja la kettlebell sobre la cabeza sin inclinar el torso.','overheadDown','overheadUp','Sube el peso poco a poco manteniendo la técnica.'),{eq:true})],
+  13:[Object.assign(ex('Push press doble con kettlebells','Hombro / Piernas','4 × 8','Dos kettlebells a los hombros, flexiona ligeramente las rodillas y empuja arriba con el impulso de las piernas.','overheadDown','overheadUp','Sube el peso poco a poco manteniendo la técnica.'),{eq:true}), Object.assign(ex('Press militar neutro a una mano de rodillas con kettlebell','Hombro / Tríceps','3 × 8 c/brazo','De rodillas, kettlebell con agarre neutro, empuja arriba y baja con control.','overheadDown','overheadUp','Sube el peso poco a poco manteniendo la técnica.'),{eq:true})]
+};
+GYM_PLAN.forEach((p,i)=>{ if(EXTRA_EQ4[i]) p.exercises.push(...EXTRA_EQ4[i]); });
 const DAYS = GYM_PLAN.map((p,i)=>({ id:i, key:'d'+(i+1), label:`Sem ${Math.floor(i/5)+1} · ${WEEKDAY_NAMES[i%5]}`, short:WEEKDAY_SHORT[i%5], type:'gym', title:p.title, tag:p.tag, _all:p.exercises, get exercises(){ return eqMode ? this._all : this._all.filter(e=>!e.eq); } }));
 
 const RUN_PLANS = {
@@ -1412,6 +1422,10 @@ function renderDay(){
 
 /* ---------- VOICE INSTRUCTIONS — spoken, plain-language execution cues ---------- */
 const VOICE_INSTRUCTIONS = {
+  'Halo con kettlebell':'Sostén la kettlebell por los cuernos y rodea la cabeza en círculo, manteniendo el torso firme.',
+  'Push press doble con kettlebells':'Dos kettlebells a los hombros, flexiona ligeramente las rodillas y empuja arriba con el impulso de las piernas.',
+  'Press militar a una mano de rodillas con kettlebell':'De rodillas con la espalda recta, empuja la kettlebell sobre la cabeza sin inclinar el torso.',
+  'Press militar neutro a una mano de rodillas con kettlebell':'De rodillas, kettlebell con agarre neutro, empuja arriba y baja con control.',
   'Zancada trasera con mancuernas':'Con una mancuerna en cada mano, da un paso largo atrás y baja la rodilla casi al piso.',
   'Hip thrust con mancuerna':'Espalda apoyada en un banco o piso, mancuerna sobre la cadera, sube la cadera apretando el glúteo.',
   'Sentadilla abierta con mancuerna':'Pies abiertos, mancuerna al pecho, baja con las rodillas hacia afuera.',
