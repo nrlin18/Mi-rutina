@@ -1789,10 +1789,16 @@ window.onYouTubeIframeAPIReady = function(){
     events: {
       onReady: ()=>{ ytReady = true; ytPlayer.setVolume(70); loadMusicForDay(); },
       onStateChange: onYtStateChange,
-      onError: ()=>{
+      onError: (ev)=>{
         ytErrorCount++;
-        musicTitleEl.textContent = 'No se pudo cargar esa pista — prueba otra búsqueda';
-        if(ytErrorCount>=2) showMusicFallback();
+        const c = ev && ev.data;
+        if((c===101 || c===150 || c===100) && ytErrorCount<=6){
+          musicTitleEl.textContent = 'Pista no permitida fuera de YouTube, saltando a la siguiente…';
+          try{ ytPlayer.nextVideo(); }catch(e){}
+          return;
+        }
+        musicTitleEl.textContent = 'Esa playlist no se puede reproducir aquí — prueba con otra';
+        musicSubEl.textContent = 'Código '+c+' · toca YouTube y elige otra playlist';
       }
     }
   });
@@ -1800,6 +1806,8 @@ window.onYouTubeIframeAPIReady = function(){
 function onYtStateChange(e){
   ytPlaying = (e.data === YT.PlayerState.PLAYING);
   musicPlayBtn.textContent = ytPlaying ? '⏸' : '▶';
+  if(e.data === YT.PlayerState.PLAYING){ ytErrorCount = 0; }
+  if(e.data === YT.PlayerState.UNSTARTED || e.data === YT.PlayerState.CUED){ musicSubEl.textContent = 'Toca ▶ para empezar'; }
   if(e.data === YT.PlayerState.PLAYING || e.data === YT.PlayerState.CUED) refreshTrackTitle();
 }
 function refreshTrackTitle(){
@@ -2415,6 +2423,7 @@ function buildAutoQueue(d){
   d.exercises.forEach((e,ei)=>{
     const sets = numSetsFromScheme(e.scheme);
     const work = workSecondsFromScheme(e.scheme);
+    q.push({kind:'prep', ex:e, exIdx:ei, totalSets:sets, seconds:30});
     for(let s=0;s<sets;s++){
       q.push({kind:'set', ex:e, exIdx:ei, setIdx:s, totalSets:sets, seconds:work});
       if(s<sets-1) q.push({kind:'rest', seconds:d.restSec||45});
@@ -2483,11 +2492,17 @@ function advanceAuto(){
     autoTimeLeft = step.seconds;
     updateAutoUI('Calentamiento', step.move.name, autoTimeLeft);
     runAutoCountdown();
+  } else if(step.kind==='prep'){
+    highlightExerciseCard(step.exIdx);
+    const instr = VOICE_INSTRUCTIONS[step.ex.name] || step.ex.cue;
+    speak(`Siguiente ejercicio: ${step.ex.name}. ${instr} Haremos ${step.totalSets} series. Prepárate.`);
+    autoTimeLeft = step.seconds;
+    updateAutoUI('Prepárate · '+step.ex.scheme, 'Siguiente: '+step.ex.name, autoTimeLeft);
+    runAutoCountdown();
   } else if(step.kind==='set'){
     highlightExerciseCard(step.exIdx);
     if(step.setIdx===0){
-      const instr = VOICE_INSTRUCTIONS[step.ex.name] || step.ex.cue;
-      speak(`${step.ex.name}. ${instr}`);
+      /* la explicación y el "Iniciamos" ya se dijeron en el paso de preparación */
     } else {
       speak(`Serie ${step.setIdx+1} de ${step.totalSets}. ${hype('set')}`);
     }
@@ -2522,6 +2537,17 @@ function runAutoCountdown(){
       if(isWarmupTransition){
         speak('Bien hecho. Ahora comienza el entrenamiento principal.');
         setTimeout(advanceAuto, 2200);
+      } else if(finished.kind==='prep'){
+        /* esperar a que termine la explicación antes de decir "Iniciamos" */
+        let guard = 0;
+        const go = ()=>{
+          if(!autoActive) return;
+          const busy = 'speechSynthesis' in window && window.speechSynthesis.speaking;
+          if(busy && guard++ < 40 && !autoPaused){ setTimeout(go, 500); return; }
+          speak('¡Iniciamos!');
+          setTimeout(advanceAuto, 1200);
+        };
+        go();
       } else {
         speak('Cambio.');
         setTimeout(advanceAuto, 700);
